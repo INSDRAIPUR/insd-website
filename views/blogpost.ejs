@@ -1,0 +1,660 @@
+<%- include('header'), {seoDetails} %>
+
+
+<div id="wrapper" class="wrap">
+  <div class="breadcrumbs panel z-1 py-2 bg-secondary dark:bg-gray-100 dark:bg-opacity-5 dark:text-white">
+      <div class="container max-w-xl">
+          <ul class="breadcrumb nav-x justify-center items-center gap-1 fs-7 m-0 fw-bold">
+              <li><img src="https://unistudio.co/html/lexend/assets/images/common/icons/home.svg" alt="icon" class="me-1"></li>
+              <li><a href='/'>Home</a></li>
+              <li><i class="fas fa-angle-right  opacity-50 rtl:rotate-180"></i></li>
+              <li><a href='/blogs'>Blog</a></li>
+              <li><i class="fas fa-angle-right  opacity-50 rtl:rotate-180"></i></li>
+              <li><span class="opacity-50"><%= blogfull.title %></span></li>
+          </ul>
+      </div>
+  </div>
+
+  <article class="post type-post single-post py-4 lg:py-6 xl:py-9">
+      <div class="container max-w-xl">
+          <div class="post-header">
+              <div class="panel vstack gap-4 md:gap-6 xl:gap-8 text-center">
+                  <div class="panel vstack items-center max-w-400px sm:max-w-500px xl:max-w-870 mx-auto gap-2 md:gap-3">
+                      <h1 class="h4 sm:h2 lg:h1 xl:display-6"><%= blogfull.title %></h1>
+                  </div>
+                  <figure class="featured-image m-0">
+                      <figure style="height: 100% !important;" class="featured-image m-0  rounded ">
+                        <% 
+                        // Function to convert a YouTube URL (watch or short form) into an embeddable URL
+                        function convertToEmbedUrl(url) {
+                            let videoId = "";
+                            if (url.includes("youtu.be")) {
+                                // Handle short URL format (e.g., https://youtu.be/Tjxx80uYyUQ)
+                                videoId = url.split("youtu.be/")[1]?.split("?")[0];
+                            } else if (url.includes("youtube.com/watch")) {
+                                // Handle full URL format (e.g., https://www.youtube.com/watch?v=Tjxx80uYyUQ)
+                                videoId = url.split("v=")[1]?.split("&")[0];
+                            }
+                            return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+                        }
+                        %>
+                        <% if (blogfull?.banner?.bannerType === "VIDEO" && blogfull?.banner?.video && blogfull?.banner?.video !== "") { %>
+                          <!-- Render video if the banner type is VIDEO and video URL exists -->
+                          <iframe 
+                              width="100%" 
+                              height="433" 
+                              src="<%= convertToEmbedUrl(blogfull.banner.video) %>" 
+                              title="YouTube video player" 
+                              frameborder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                              referrerpolicy="strict-origin-when-cross-origin" 
+                              allowfullscreen>
+                          </iframe>
+                      <% } else if (blogfull?.banner?.bannerType === "IMAGE" && blogfull?.banner?.image) { %>
+                          <!-- Render image if the banner type is IMAGE and image URL exists -->
+                          <img 
+                          class=" image uc-transition-scale-up uc-transition-opaque"
+                              style="padding-top: 0; width:100%; " 
+                              src="<%= process.env.S3_BASE_URL + blogfull.banner.image %>" 
+                              alt="blog_banner">
+                      <% } %>
+                      </figure>
+                  </figure>
+              </div>
+          </div>
+      </div>
+      <div class="panel mt-4 lg:mt-6 xl:mt-9">
+          <div class="container max-w-lg">
+            <div class="blog-description"><%- blogfull.description.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '').replace(/\n/g, '<br>') %></div>
+
+<!-- Add this script to fix and render the table -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const blogDescription = document.querySelector('.blog-description');
+    
+    if (blogDescription) {
+      const content = blogDescription.innerHTML || '';
+      
+      // Check if content contains encoded table tags
+      if (content.includes('&lt;table') && content.includes('&lt;thead') && content.includes('&lt;tbody')) {
+        try {
+          // Create a temporary div to decode HTML entities
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = content;
+          let decodedContent = tempDiv.textContent;
+          
+          // Remove paragraph tags and clean up the HTML
+          decodedContent = decodedContent
+            .replace(/<\/?p>/g, '') // Remove <p> and </p> tags
+            .replace(/&nbsp;/g, '') // Remove &nbsp;
+            .replace(/\s+</g, '<')  // Remove whitespace before tags
+            .replace(/>\s+/g, '>')  // Remove whitespace after tags
+            .trim();
+          
+          // Replace the content with the cleaned table HTML
+          blogDescription.innerHTML = decodedContent;
+          
+          // Add the table-container class to the blog-description div
+          blogDescription.classList.add('table-container');
+        } catch (error) {
+          console.error('Error processing table HTML:', error);
+        }
+      }
+    }
+  });
+</script>
+
+
+<style>
+  /* Table styles */
+.blog-description p, .item-description p,.blog-description li ,.blog-description th,.item-description th  ,.item-description li{
+  font-size: 16px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 0.7);
+}
+.item-description td,.blog-description td  {
+  font-size: 16px;
+  line-height: 30px;
+}
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    border: 1px solid #dddee1 !important;
+  }
+  
+  table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: none !important;
+  }
+  
+  table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    color: black;
+    border-bottom: 1px dashed #dddee19e !important;
+  }
+
+  table th {
+    background-color: #f4f6f8 !important;
+    font-weight: 600;
+    color: black ;
+    border-bottom: 1px solid #f4f6f8 !important;
+  }
+  
+  table .even-row {
+    background-color: white !important;
+  }
+  
+  table .odd-row {
+    background-color: white !important;
+  }
+  
+  /* Hover effect */
+  table tbody tr:hover {
+    background-color: #f4f6f8 !important;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 640px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    table th,
+    table td {
+      padding: 0.5rem 0.75rem !important;
+    }
+  }
+  .facebook-embed {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  .instagram-media{
+    max-height: 100vh;
+    width: auto !important;
+  }
+  .fb-video {
+    width: 100% !important;
+    max-width: 540px;
+    min-width: 300px;
+  }
+  .embed .Footer{
+    display: none !important;
+  }
+  h1,h2,h3,h4,h5,h6,span,p,a,li,tr,td,th{
+    font-family: "graphik",sans-serif;
+  }
+</style>
+            <div class="description-block">
+             <% blogfull.multipleDescriptions.forEach(function(item) { %>
+               <div class="single-description">
+                <div class="item-description"><%- (item.description || '').replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '').replace(/\n/g, '<br>') %>
+
+                </div>
+                
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    // Get all item-description elements
+                    const itemDescriptions = document.querySelectorAll('.item-description');
+                    
+                    itemDescriptions.forEach(function(itemDescription) {
+                      const content = itemDescription.innerHTML || '';
+                      
+                      // Check if content contains encoded table tags
+                      if (content.includes('&lt;table') || content.includes('<table')) {
+                        try {
+                          // Step 1: Find the table part in the content
+                          const tableStartIndex = content.indexOf('&lt;table');
+                          const tableEndIndex = content.indexOf('&lt;/table&gt;') + '&lt;/table&gt;'.length;
+                          
+                          if (tableStartIndex !== -1 && tableEndIndex !== -1) {
+                            // Extract the encoded table HTML
+                            const encodedTableHtml = content.substring(tableStartIndex, tableEndIndex);
+                            
+                            // Create a temporary div to decode HTML entities
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = encodedTableHtml;
+                            
+                            // Get the decoded table HTML
+                            let decodedTableHtml = tempDiv.textContent;
+                            
+                            // Clean up the table HTML
+                            decodedTableHtml = decodedTableHtml
+                              .replace(/&nbsp;/g, '') // Remove &nbsp;
+                              .replace(/\s+</g, '<')  // Remove whitespace before tags
+                              .replace(/>\s+/g, '>')  // Remove whitespace after tags
+                              .trim();
+                            
+                            // Replace only the table part in the original content
+                            const newContent = content.substring(0, tableStartIndex) + 
+                                              decodedTableHtml + 
+                                              content.substring(tableEndIndex);
+                            
+                            // Update the content
+                            itemDescription.innerHTML = newContent;
+                          }
+                        } catch (error) {
+                          console.error('Error processing table HTML in item-description:', error);
+                        }
+                      }
+                    });
+                  });
+                </script>
+                <% if (item.instagram) { %>
+                  <div class="instagram-embed" style="display: flex; justify-content: center;">
+                    <blockquote class="instagram-media"
+                                data-instgrm-permalink="<%= item.instagram %>"
+                                data-instgrm-version="14"
+                                data-captioned="false"
+                                
+                                style="background: #fff; border: 0; margin: 0; padding: 0; width: 100%;">
+                    </blockquote>
+                  </div>
+                  <script>
+                    if (!window.instgrm) {
+                      const script = document.createElement('script');
+                      script.src = "https://www.instagram.com/embed.js";
+                      script.async = true;
+                      document.body.appendChild(script);
+                    } else {
+                      window.instgrm.Embeds.process();
+                    }
+                  </script>
+                <% } %>
+                
+                
+                
+                
+                <% if (item.facebook) { %>
+                  <div class="facebook-embed"  style="justify-content: center;
+                  display: flex
+                ;">
+                    <div class="fb-video" 
+                         data-href="<%= item.facebook %>" 
+                         data-width="540"
+                         data-show-text="false"
+                         data-allowfullscreen="true"></div>
+                  </div>
+                <% } %>
+                
+                <div id="fb-root"></div>
+                <script>
+                  (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+                    js.async = true;
+                    fjs.parentNode.insertBefore(js, fjs);
+                  }(document, 'script', 'facebook-jssdk'));
+                </script>
+                
+                 
+                 <% if (item.singleImage && item.singleImage.image) { %>
+                   <!-- Display Single Image -->
+                   <div class="single-image-container" style="margin: 25px 0;">
+                     <img src="<%= process.env.S3_BASE_URL + item.singleImage.image %>" alt="Single Image" style="border-radius:20px; width:100%" class="single-image">
+                   </div>
+                 <% } %>
+             
+                 
+                 <% 
+                 // Function to convert a YouTube URL (watch or short form) into an embeddable URL
+                 function convertToEmbedUrl(url) {
+                     let videoId = "";
+                     if (url.includes("youtu.be")) {
+                         // Handle short URL format (e.g., https://youtu.be/Tjxx80uYyUQ)
+                         videoId = url.split("youtu.be/")[1]?.split("?")[0];
+                     } else if (url.includes("youtube.com/watch")) {
+                         // Handle full URL format (e.g., https://www.youtube.com/watch?v=Tjxx80uYyUQ)
+                         videoId = url.split("v=")[1]?.split("&")[0];
+                     }
+                     return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+                 }
+                 %>
+                 
+                 <% if (item?.youtube && item?.youtube !== "") { 
+                     const embedUrl = convertToEmbedUrl(item.youtube); 
+                     if (embedUrl) { %>
+                         <iframe 
+                         width="100%" 
+                         height="433"
+                         style="border-radius: 20px; margin:25px 0" 
+                             src="<%= embedUrl %>" 
+                             title="YouTube video player" 
+                             frameborder="0" 
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                             referrerpolicy="strict-origin-when-cross-origin" 
+                             allowfullscreen>
+                         </iframe>
+                     <% } else { %>
+                         <p>Invalid YouTube URL provided.</p>
+                     <% } 
+                 } %>
+                 
+                 <% if (item.multipleImages && item.multipleImages.length > 0) { %>
+                  <div class="image-gallery swiper-container">
+                    <div class="swiper-wrapper" >
+                      <% item.multipleImages.forEach(function(image, index) { %>
+                        <div class="swiper-slide">
+                          <div class="popup-trigger" data-type="image" data-src="<%= process.env.S3_BASE_URL + image %>">
+                            <img 
+                              src="<%= process.env.S3_BASE_URL + image %>" 
+                              alt="Image <%= index + 1 %>"
+                              class="gallery-image"
+                              data-index="<%= index %>"
+                            />
+                          </div>
+                        </div>
+                      <% }); %>
+                    </div>
+                  </div>
+                  
+                <% } %>
+                
+                <style>
+                  .image-gallery {
+                    width: 100%;
+                    padding: 40px 0;
+                    overflow: hidden;
+                  }
+                
+                  .swiper-slide,
+                  .static-slide {
+                    border-radius: 20px;
+                    overflow: hidden;
+                    width: auto;
+                    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+                  }
+                
+               
+                
+                  /* Center effect for swiper */
+                  .swiper-slide-active img {
+                    transform: scale(1);
+                    filter: none;
+                    
+                    opacity: 1;
+                  }
+                
+                  .swiper-slide-prev img,
+                  .swiper-slide-next img {
+                    transform: scale(0.94);
+                    opacity: 1;
+                  }
+                
+                  /* Static wrapper styles for 2 images on desktop */
+                  .static-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                  }
+                
+                  .static-slide {
+                    flex: 1;
+                    width: auto;
+                  }
+                
+                  @media (max-width: 768px) {
+                    .static-gallery {
+                      display: block;
+                    }
+                
+                    .static-wrapper {
+                      display: block;
+                    }
+                
+                    .static-slide {
+                      width: 100%;
+                      max-width: 100%;
+                    }
+                
+                    .static-gallery {
+                      /* Turn into swiper on mobile */
+                    }
+                
+                    .static-wrapper {
+                      display: flex;
+                    }
+                
+                    .static-slide {
+                      min-width: 100%;
+                    }
+                  }
+                  .swiper-slide,
+.static-slide {
+  border-radius: 20px;
+  margin: 0 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+}
+
+.swiper-slide img,
+.static-slide img {
+  height: auto;
+  max-height: 90vh;
+  width: auto;
+  max-width: 90vw;
+  border-radius: 20px;
+  display: block;
+  margin: 0 auto;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Fix space for 2 slides on web */
+.static-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.static-slide {
+  flex: 0 1 auto;
+  max-width: calc(50% - 8px);
+}
+
+@media (max-width: 768px) {
+  .static-wrapper {
+    flex-direction: row;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+  }
+
+  .static-slide {
+    scroll-snap-align: start;
+    min-width: 90%;
+  }
+}
+
+                </style>
+                
+                <script>document.addEventListener("DOMContentLoaded", function () {
+                  const isMobile = window.innerWidth <= 768;
+                  const imageCount = <%= item.multipleImages.length %>;
+                
+                  if (isMobile || imageCount > 2) {
+                    const swiper = new Swiper(".swiper-container", {
+                      loop: imageCount > 1, // prevent loop on single image
+                      slidesPerView: "auto",
+                      centeredSlides: true,
+                      spaceBetween: 0,
+                      autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                      },
+                      navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                      },
+                      on: {
+                        slideChange: function () {
+                          document.querySelectorAll(".swiper-slide img").forEach(img => {
+                            img.style.opacity = "1";
+                          });
+                          let activeImage = document.querySelector(".swiper-slide-active img");
+                          if (activeImage) {
+                            activeImage.style.opacity = "1";
+                          }
+                        },
+                      },
+                    });
+                  }
+                });
+                
+                </script>
+                
+             
+                 <% if (item.button && item.button.hyperLink && item.button.title) { %>
+                   <div class="button" style="display: flex
+;
+   justify-content: center;">
+                   <a style="height: 55px; margin:25px 0; margin-top:10px; font-family:graphik,sans-serif" href="<%= item.button.hyperLink %>" target="_blank" class="btn btn-sm btn-primary rounded-default text-white text-none d-none lg:d-inline-flex"><%= item.button.title %></a>
+                 </div>
+                 <% } %> <!-- Only display the button if both hyperLink and title exist -->
+             
+               </div>
+             <% }); %>
+             
+         </div>
+              <div class="post-footer panel vstack sm:hstack gap-3 justify-between justifybetween border-top py-2 mt-5">
+                  <ul class="nav-x gap-narrow text-primary">
+                      <li><span class="text-black dark:text-white me-narrow">Tags:</span></li>
+                      <% if (blogfull.seoDetails.tags && blogfull.seoDetails.tags.length > 0) { %>
+                        <% blogfull.seoDetails.tags.forEach((tag, index) => { %>
+                          <li>
+                            <a href="javascript:void(0)" class="gap-0">
+                              <%= tag %>
+                              <% if (index < blogfull.seoDetails.tags.length - 1) { %>
+                                <span class="text-black dark:text-white">,</span>
+                              <% } %>
+                            </a>
+                          </li>
+                        <% }) %>
+                      <% } %>
+                      
+                  </ul>
+                  <ul class="post-share-icons nav-x gap-narrow">
+                      <li class="me-1"><span class="text-black dark:text-white">Share:</span></li>
+                      <li>
+                          <a class="btn btn-md btn-outline-gray-100 w-32px lg:w-40px h-32px lg:h-40px text-dark dark:text-white dark:border-gray-600 hover:bg-primary hover:border-primary hover:text-white rounded-circle" href="https://www.facebook.com/sharer/sharer.php?u="><i class="fa-brands fa-facebook"></i></a>
+                      </li>
+                      <li>
+                          <a class="btn btn-md btn-outline-gray-100 w-32px lg:w-40px h-32px lg:h-40px text-dark dark:text-white dark:border-gray-600 hover:bg-primary hover:border-primary hover:text-white rounded-circle" href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                      </li>
+                      <li>
+                          <a class="btn btn-md btn-outline-gray-100 w-32px lg:w-40px h-32px lg:h-40px text-dark dark:text-white dark:border-gray-600 hover:bg-primary hover:border-primary hover:text-white rounded-circle" href="https://api.whatsapp.com/send?text=" target="_blank" id="whatsappShare"><i class="fa-brands fa-whatsapp"></i></a>
+                      </li>
+                      <li>
+                          <button onclick="copyToClipboard(event)" style="background: none;" class="btn btn-md btn-outline-gray-100 w-32px lg:w-40px h-32px lg:h-40px text-dark dark:text-white dark:border-gray-600 hover:bg-primary hover:border-primary hover:text-white rounded-circle" ><i class="fa-solid fa-link icon-1"></i></button>
+                      </li>
+                  </ul>
+              </div>
+              <!-- Custom Alert -->
+              <div id="customAlert" class="custom-alert">Link copied to clipboard!</div>
+                  
+              <style>
+                  .custom-alert {
+                      position: fixed;
+                      top: 150px;
+                      font-family: "graphik",sans-serif;
+                      left: 50%;
+                      transform: translateX(-50%);
+                      background-color: #333;
+                      color: #fff;
+                      padding: 10px 20px;
+                      border-radius: 5px;
+                      font-size: 14px;
+                      opacity: 0;
+                      visibility: hidden;
+                      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+                  }
+                  .custom-alert.show {
+                      opacity: 1;
+                      visibility: visible;
+                  }
+                  .post-share-icons li i{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                                  }
+              </style>
+              
+            
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  let blogUrl = encodeURIComponent(window.location.href);
+  document.getElementById("facebookShare").href += blogUrl;
+  document.getElementById("whatsappShare").href += blogUrl;
+});
+
+function copyToClipboard(event) {
+if (event) event.preventDefault(); // Prevents default behavior
+
+let blogUrl = window.location.href;
+
+// Create a temporary input field to enable copying on mobile
+let tempInput = document.createElement("input");
+tempInput.value = blogUrl;
+document.body.appendChild(tempInput);
+tempInput.select();
+document.execCommand("copy");
+document.body.removeChild(tempInput);
+
+showCustomAlert();
+}
+function showCustomAlert() {
+  let alertBox = document.getElementById("customAlert");
+  alertBox.classList.add("show");
+  setTimeout(() => {
+      alertBox.classList.remove("show");
+  }, 2000); // Hide alert after 2 seconds
+}
+</script>
+            
+              <div class="post-related panel border-top pt-2">
+                  <h4 class="h5 xl:h4 mb-5 xl:mb-6">Related topics:</h4>
+                  <div class="row child-cols-6 md:child-cols-4 gx-2 gy-4 sm:gx-3 sm:gy-6">
+                    <% relatedposts.forEach(item => { %>
+                      <div>
+                          <article class="post type-post panel vstack gap-2">
+                              <figure class="featured-image m-0 rounded ratio ratio-4x3 uc-transition-toggle overflow-hidden">
+                                  <img class="media-cover image uc-transition-scale-up uc-transition-opaque" src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt="<%=  item.title %>">
+                                  <a class='position-cover' data-caption='How can marketing help your business?' href='/insight/<%= item.seoDetails.slug %>'></a>
+                              </figure>
+                              <header class="panel vstack gap-1">
+                                  <h5 class="h6 sm:h5 md:h4 m-0">
+                                      <a class='text-none' href='/insight/<%= item.seoDetails.slug %>'><%= item.title %></a>
+                                  </h5>
+                                  <div class="post-date hstack gap-narrow fs-7 opacity-60">
+                                      <span><%= item.postDate %></span>
+                                  </div>
+                              </header>
+                          </article>
+                      </div>
+                     <% }) %>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+  </article>
+
+
+</div>
+
+
+<%- include('footer') %>

@@ -1,0 +1,247 @@
+<%- include('header', {seoDetails}) %>
+
+<body>
+  <div class="error-page">
+    <!-- Simple background elements -->
+    <div class="background-elements">
+      <div class="star star-1"></div>
+      <div class="star star-2"></div>
+      <div class="star star-3"></div>
+      <div class="star star-4"></div>
+      <div class="star star-5"></div>
+      <div class="star star-6"></div>
+    </div>
+
+    <!-- Main content container -->
+    <div class="content-container">
+      <div class="error-content">
+        <!-- 404 Text -->
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-message">The page you're looking for doesn't exist or has been moved.</p>
+        
+        <!-- Simple button -->
+        <a href="/" class="home-button bg-primary">
+          <span>Back to Home</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 10H5M5 10L10 15M5 10L10 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Simple fade-in animation for content
+      const content = document.querySelector('.error-content');
+      setTimeout(() => {
+        content.classList.add('visible');
+      }, 100);
+      
+      // Animate stars with random delays
+      const stars = document.querySelectorAll('.star');
+      stars.forEach(star => {
+        const delay = Math.random() * 3;
+        star.style.animationDelay = `${delay}s`;
+      });
+    });
+  </script>
+
+  <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "graphik",sans-serif;
+      background-color: #19182c; /* Exact background color requested */
+      color: #FFFFFF;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    
+    /* Main container */
+    .error-page {
+      position: relative;
+      width: 100%;
+      min-height: 89vh;
+      background-color: #19182c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    /* Simple background elements */
+    .background-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: twinkle 3s infinite;
+    }
+    
+    .star-1 {
+      top: 20%;
+      left: 15%;
+    }
+    
+    .star-2 {
+      top: 30%;
+      right: 20%;
+    }
+    
+    .star-3 {
+      bottom: 25%;
+      left: 30%;
+    }
+    
+    .star-4 {
+      top: 15%;
+      right: 35%;
+    }
+    
+    .star-5 {
+      bottom: 40%;
+      right: 25%;
+    }
+    
+    .star-6 {
+      bottom: 15%;
+      left: 20%;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.5);
+      }
+    }
+    
+    /* Content container */
+    .content-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 600px;
+      padding: 0 20px;
+    }
+    
+    .error-content {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out;
+    }
+    
+    .error-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Text styles */
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    
+    .error-title {
+      font-size: 32px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+    
+    .error-message {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+    }
+    
+    /* Button style */
+    .home-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+     
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .home-button:hover {
+     color: white;
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .home-button svg {
+      transition: transform 0.3s ease;
+    }
+    
+    .home-button:hover svg {
+      transform: translateX(-5px);
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .error-code {
+        font-size: 100px;
+      }
+      
+      .error-title {
+        font-size: 28px;
+      }
+      
+      .error-message {
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .error-code {
+        font-size: 80px;
+      }
+      
+      .error-title {
+        font-size: 24px;
+      }
+      
+      .error-message {
+        font-size: 15px;
+      }
+      
+      .home-button {
+        padding: 12px 24px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</body>

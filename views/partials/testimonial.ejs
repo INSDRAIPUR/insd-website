@@ -1,0 +1,416 @@
+<!-- Review Popup -->
+<div id="reviewPopup" class="review-popup">
+    <div class="review-popup-content">
+        <div class="review-popup-scroll">
+            <p id="fullReviewText"></p>
+        </div>
+    </div>
+    <button class="close-popup" onclick="closeReviewPopup()">×</button>
+</div>
+
+<style>
+    h1,p{
+        font-family: "graphik",sans-serif;
+    }
+    .review-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    .review-popup-scroll::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, and Opera */
+    }
+    .review-popup-content {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        width: 50%;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        transform: scale(0.8);
+        transition: transform 0.3s ease-in-out;
+    }
+    .review-popup-scroll {
+        overflow-y: auto;
+        max-height: calc(85vh - 80px);
+        padding-right: 15px;
+    }
+    #fullReviewText {
+        font-size: 25px;
+        line-height: 38px;
+        font-weight: 500;
+        letter-spacing: -0.05em;
+        margin: 0;
+    }
+    .review-popup-scroll::-webkit-scrollbar {
+        width: 8px;
+    }
+    .review-popup-scroll::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    .review-popup-scroll::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+    .review-popup-scroll::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    @media (max-width: 600px) {
+        .review-popup-content {
+            padding: 20px;
+            margin: 10px;
+            width: 90%;
+        }
+        #fullReviewText {
+            font-size: 18px;
+            line-height: 28px;
+        }
+    }
+    #reviewPopup .close-popup {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        height: 40px;
+        width: 40px;
+        padding: 0;
+        font-size: 24px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        background-color: #76767691;
+        color: white;
+        font-weight: bold;
+        z-index: 1001;
+    }
+    .testimonial-text {
+        color: #323232;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 26px;
+    }
+    .read-more-btn {
+        margin-top: 5px;
+        background-color: transparent;
+        color: #999999;
+        font-size: 15px;
+        font-style: italic;
+        font-weight: 400;
+        cursor: pointer;
+        padding: 5px 8px 5px 0;
+        border-radius: 4px;
+    }
+    body.modal-open {
+        overflow: hidden;
+    }
+    .review-popup.show {
+        display: flex;
+        opacity: 1;
+    }
+    .review-popup.show .review-popup-content {
+        transform: scale(1);
+    }
+    .video-container-portrait {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        max-height: 600px;
+        overflow: hidden;
+    }
+    .video-container-portrait iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .youtube-video {
+        pointer-events: none;
+    }
+    .video-container-portrait:hover .youtube-video {
+        pointer-events: auto;
+    }
+    .replay-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+        z-index: 10;
+        justify-content: center;
+        align-items: center;
+    }
+    .replay-btn i {
+        margin-left: 3px;
+    }
+    .video-container-portrait.ended .replay-btn {
+        display: flex; /* Show replay button only when video has ended */
+    }
+    .restart-video-btn {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+        z-index: 10;
+    }
+    .uc-transition-toggle,
+    .uc-transition-scale-up,
+    .uc-transition-opaque {
+        transition: none !important;
+    }
+    .text-only-slide {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+
+    .padding-3{
+        padding: 1.5rem;
+    }
+    @media (max-width:600px) {
+        .padding-3{
+            padding: 0.8rem;
+        }
+    }
+</style>
+
+<script>
+    let videoPlayers = {};
+    let swiperInstances = {};
+    let currentActiveSlide = 0;
+
+    function onYouTubeIframeAPIReady() {
+        document.querySelectorAll('.youtube-video').forEach(iframe => {
+            const videoId = iframe.id.replace('video-', '');
+            videoPlayers[videoId] = new YT.Player(iframe.id, {
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        });
+        
+        // Initialize swiper instances
+        const imageSwiper = new Swiper('.connect-image', {
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            allowTouchMove: false,
+            autoHeight: true,
+            on: {
+                slideChange: function(swiper) {
+                    currentActiveSlide = swiper.activeIndex;
+                    // Pause all videos when slide changes
+                    Object.values(videoPlayers).forEach(player => {
+                        player.pauseVideo();
+                    });
+                }
+            }
+        });
+        
+        const textSwiper = new Swiper('.connect-text', {
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            autoHeight: true
+        });
+        
+        // Connect the two swipers
+        imageSwiper.controller.control = textSwiper;
+        textSwiper.controller.control = imageSwiper;
+        
+        swiperInstances.image = imageSwiper;
+        swiperInstances.text = textSwiper;
+    }
+
+    function onPlayerReady(event) {
+        // Do not autoplay initially
+        event.target.pauseVideo();
+    }
+
+    function onPlayerStateChange(event) {
+        const container = event.target.getIframe().parentElement;
+        
+        if (event.data === YT.PlayerState.ENDED) {
+            container.classList.add('ended'); // Show replay button
+            // Auto-advance to next slide when video ends
+            setTimeout(() => {
+                if (swiperInstances.image && !swiperInstances.image.destroyed) {
+                    swiperInstances.image.slideNext();
+                }
+            }, 2000);
+        } else {
+            container.classList.remove('ended'); // Hide replay button
+        }
+    }
+
+    function replayVideo(videoId) {
+        if (videoPlayers[videoId]) {
+            videoPlayers[videoId].seekTo(0);
+            videoPlayers[videoId].playVideo();
+        }
+    }
+
+    // Load YouTube API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // Review Popup Functions
+    function openReviewPopup(reviewText) {
+        document.getElementById("fullReviewText").innerText = reviewText;
+        const popup = document.getElementById("reviewPopup");
+        popup.style.display = "flex";
+        setTimeout(() => popup.classList.add("show"), 10);
+        document.body.classList.add("modal-open");
+    }
+
+    function closeReviewPopup() {
+        const popup = document.getElementById("reviewPopup");
+        popup.classList.remove("show");
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 300);
+        document.body.classList.remove("modal-open");
+        return false;
+    }
+
+    document.getElementById("reviewPopup").addEventListener("click", function(event) {
+        if (event.target === this) {
+            event.preventDefault();
+            closeReviewPopup();
+        }
+    });
+</script>
+
+<!-- Testimonial Section -->
+<div id="clients_feedback" class="clients-feedback section panel overflow-hidden">
+    <div class="section-outer panel">
+        <div class="container max-w-lg">
+            <div class="section-inner panel swiper-parent">
+                <h2 class="h4 sm:h3 lg:h2 m-0 text-center">Real Stories . Real Impact</h2>
+                <p style="font-size: 18px;" class="text-center mt-2 opacity-70"> Voices that reflect our impact.</p>
+                <div class="panel padding-3  lg:p-6 bg-secondary dark:bg-gray-800 rounded-3 mt-4 sm:mt-6">
+                    <div class="row child-cols-12 sm:child-cols-6 col-match g-3 lg:g-8">
+                        <div>
+                            <div class="panel rounded-2 overflow-hidden" style="height: 650px;">
+                                <div class="swiper connect-image" style="height: 100% !important;" data-uc-swiper="items: 1; dots: .swiper-pagination; effect: fade; fade: true; allowTouchMove: false; disableOnInteraction: true;">
+                                    <div  class="swiper-wrapper" style="height: 100% !important;">
+                                        <% testimonial.forEach((slide, index) => { 
+                                            const hasVideo = slide.link && slide.link.includes('youtube.com/shorts');
+                                            const videoId = hasVideo ? slide.link.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/)[1] : null;
+                                        %>
+                                        <div  class="swiper-slide">
+                                            <% if (hasVideo) { %>
+                                                <div class="video-container-portrait">
+                                                    <iframe src="https://www.youtube.com/embed/<%= videoId %>?enablejsapi=1&autoplay=0&mute=0&modestbranding=1&showinfo=0&controls=0&disablekb=1&fs=0&rel=0" 
+                                                            frameborder="0" 
+                                                            style="scale:1.4"
+                                                            allow="accelerometer; encrypted-media; gyroscope"
+                                                            allowfullscreen
+                                                            id="video-<%= videoId %>"
+                                                            class="youtube-video">
+                                                    </iframe>
+                                                    <button class="replay-btn" onclick="replayVideo('<%= videoId %>')">
+                                                        <i class="fas fa-redo"></i>
+                                                    </button>
+                                                </div>
+                                            <% } else { %>
+                                                <% if (slide.image) { %>
+                                                    <figure class="featured-image  m-0 rounded ratio ratio-3x4 overflow-hidden" style="scale:1.15;height: 100%;">
+                                                        <img class="media-cover image" 
+                                                             src="<%= process.env.S3_BASE_URL + slide.image %>" 
+                                                             alt="<%= slide.name %>"
+                                                             style="object-fit: cover; height: 100%; border-radius:24px; width: 100%;">
+                                                    </figure>
+                                                <% } else { %>
+                                                    <div class="text-only-slide">
+                                                        <p class="testimonial-text"><%= slide.review %></p>
+                                                    </div>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="panel">
+                                <div class="swiper h-100 connect-text" data-uc-swiper="connect: .connect-image; items: 1; dots: .swiper-pagination; effect: fade; fade: true;">
+                                    <div class="swiper-wrapper">
+                                        <% testimonial.forEach((slide) => { 
+                                            const displayText = slide.review.length > 450 ? 
+                                                slide.review.slice(0, 450) + '...' : 
+                                                slide.review;
+                                        %>
+                                        <div class="swiper-slide h-100">
+                                            <div class="panel vstack justify-between items-center gap-2 lg:gap-4 h-100 text-center">
+                                                <div class="panel">
+                                                    <i style="color: #ac3948; height:48px; width:48px; font-size:48px" class="fa-solid fa-quote-left"></i>
+                                                    <p class="fs-6 sm:fs-5 lg:fs-4 fw-bold mt-1 sm:mt-4 dark:text-white" style="padding: 12PX;">
+                                                        <%= displayText %>
+                                                        <% if (slide.review.length > 450) { %>
+                                                            <span class="read-more-btn" onclick="openReviewPopup(`<%= slide.review.replace(/'/g, '\\\'').replace(/"/g, '"') %>`)">
+                                                                Read More
+                                                            </span>
+                                                        <% } %>
+                                                    </p>
+                                                </div>
+                                                <div class="panel ">
+                                                    <div class="panel vstack items-center gap-narrow">
+                                                        <h6 class="h5 m-0"><%= slide.name %></h6>
+                                                        <span class="fs-6 opacity-70"><%= slide.companyProfile %></span>
+                                                    </div>
+                                                    <div class="panel mt-6">
+                                                        <div class="swiper-pagination text-primary m-0 justify-center"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

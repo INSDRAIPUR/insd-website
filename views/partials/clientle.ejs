@@ -1,0 +1,95 @@
+<div id="client-logos" class="client-logos-section">
+    <div class="client-logos-container">
+      <h2 class="client-logos-heading">Trusted by well-known brands.</h2>
+      <div class="client-logos-marquee-wrapper">
+        <!-- Marquee track (duplicated for seamless looping) -->
+        <div class="client-logos-track">
+          <% clients.forEach(item => { %>
+            <a href="<%= item.hyperlink || '' %>" class="client-logo-item">
+              <img src="<%= process.env.S3_BASE_URL + item.logo %>" alt="<%= item.title %>" class="client-logo-img">
+            </a>
+          <% }) %>
+          <!-- Duplicate the logos for seamless looping -->
+          <% clients.forEach(item => { %>
+            <a href="<%= item.hyperlink || '' %>" class="client-logo-item">
+              <img src="<%= process.env.S3_BASE_URL + item.logo %>" alt="<%= item.title %>" class="client-logo-img">
+            </a>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    h2{
+      font-family: "Degular Display",sans-serif;
+      font-weight: 600;
+    }
+    /* Base styles */
+    .client-logos-section {
+      padding: 2rem 0;
+      overflow: hidden;
+    }
+    
+    .client-logos-container {
+      max-width: 1200px;
+      margin: 60px auto;
+     /*  padding: 0 1rem;*/
+    }
+    
+    .client-logos-heading {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.25rem;
+    }
+    
+    /* Marquee styles */
+    .client-logos-marquee-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .client-logos-track {
+      display: flex;
+      margin: 40px 0;
+      align-items: center;
+      width: max-content;
+      animation: scroll-logos 30s linear infinite;
+      will-change: transform;
+    }
+    
+    .client-logo-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 2rem;
+      flex-shrink: 0;
+    }
+    
+    .client-logo-img {
+      height: 60px;
+      width: auto;
+    
+      object-fit: contain;
+    }
+    
+    /* Animation */
+    @keyframes scroll-logos {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .client-logo-item {
+        margin: 0 1rem;
+      }
+      .client-logo-img {
+        height: 50px;
+      }
+      @keyframes scroll-logos {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+    }
+  </style>

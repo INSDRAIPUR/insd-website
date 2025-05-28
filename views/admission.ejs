@@ -1,0 +1,379 @@
+<%- include('header'),{seoDetails} %>
+{
+    <style>
+        a,li,span,label,button{
+            font-family: "graphik",sans-serif;
+        }
+    </style>
+}
+<!-- Admission Form Section -->
+<div id="wrapper" class="wrap">
+
+    <!-- Section start -->
+    <div id="hero_header" class="hero-header section panel overflow-hidden">
+        <div class="position-absolute top-0 start-0 end-0 min-h-600px bg-secondary dark:bg-opacity-0 z-0"></div>
+        <div class="position-absolute top-0 start-0 end-0 min-h-screen overflow-hidden d-none lg:d-block" data-anime="targets: >*; scale: [0, 1]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 750});">
+            <div class="position-absolute top-0 start-0 rotate-45" style="top: 30% !important; left: 18% !important">
+                <img class="w-32px text-gray-900 dark:text-white" src="https://unistudio.co/html/lexend/assets/images/template/star-1.svg" alt="star-1" data-uc-svg>
+            </div>
+            <div class="position-absolute top-0 end-0 rotate-45" style="top: 15% !important; right: 18% !important">
+                <img class="w-24px text-gray-900 dark:text-white" src="https://unistudio.co/html/lexend/assets/images/template/star-2.svg" alt="star-2" data-uc-svg>
+            </div>
+        </div>
+        <div class="section-outer panel pt-9 lg:pt-10 pb-6 sm:pb-8 lg:pb-9">
+            <div class="container max-w-xl">
+                <div class="section-inner panel mt-2 sm:mt-4 lg:mt-0" data-anime="targets: >*; translateY: [48, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
+                    <div class="vstack items-center gap-2 lg:gap-4 mb-4 sm:mb-6 lg:mb-8 max-w-750px mx-auto text-center">
+                        <h1 class="h2 sm:h1 lg:display-6 xl:display-5 m-0">Admission Enquiry
+                        </h1>
+                        <p class="fs-6 sm:fs-5 text-dark dark:text-white text-opacity-70">Need help with course selection or admission details? Select your courses of interest, and we’re here to guide you every step of the way.
+</p>
+                    </div>
+                    <div class="panel max-w-750px mx-auto">
+                        <form id="admissionForm" class="vstack gap-2 p-3 sm:p-6 xl:p-8 rounded-2 border bg-white dark:bg-gray-900 border-secondary dark:border-gray-300 dark:border-opacity-20">
+                            <p class="fs-6 text-dark dark:text-white text-opacity-70 mb-2">Choose the courses you're interested in, and we’ll provide all the necessary information for your admission.</p>
+                            <div class="row child-cols-12 md:child-cols-6 g-2">
+                                <div>
+                                    <input class="form-control h-48px w-full bg-white dark:border-white dark:bg-opacity-0 dark:border-opacity-15 dark:text-white" type="text" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.name %>" placeholder="Full name" required>
+                                </div>
+                                <div>
+                                    <input class="form-control h-48px w-full bg-white dark:border-white dark:bg-opacity-0 dark:border-opacity-15 dark:text-white" type="tel" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone %>" placeholder="Contact No." required>
+                                </div>
+                            </div>
+                            <div class="row child-cols-12 md:child-cols-6 g-2">
+                                <div>
+                                    <input class="form-control h-48px w-full bg-white dark:border-white dark:bg-opacity-0 dark:border-opacity-15 dark:text-white" type="text" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.qualification %>" placeholder="Last Qualification" required>
+                                </div>
+                                <div>
+                                    <input class="form-control h-48px w-full bg-white dark:border-white dark:bg-opacity-0 dark:border-opacity-15 dark:text-white" type="text" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.city %>" placeholder="City" required>
+                                </div>
+                            </div>
+                            <div class=" w-full labeldeg">
+                                <label for="couses">Choose Course</label>
+                                <div class="course-grid">
+                                    <!-- Interior Design -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Interior Designing')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Interior Designing" class="hidden-input" required>
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-home"></i>
+                                      </div>
+                                      <span class="course-name">Interior Designing</span>
+                                    </div>
+                                    
+                                    <!-- Fashion Design -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Fashion Designing')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Fashion Designing" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-scissors"></i>
+                                      </div>
+                                      <span class="course-name">Fashion Designing</span>
+                                    </div>
+                                    
+                                    <!-- Graphic Design -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Graphic Designing')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Graphic Designing" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-palette"></i>
+                                      </div>
+                                      <span class="course-name">Graphic Designing</span>
+                                    </div>
+                                    
+                                    <!-- Photography -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Photography')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Photography" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-camera"></i>
+                                      </div>
+                                      <span class="course-name">Photography</span>
+                                    </div>
+                                    
+                                    <!-- Event Management -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Event Management')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Event Management" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-calendar"></i>
+                                      </div>
+                                      <span class="course-name">Event Management</span>
+                                    </div>
+                                    
+                                    <!-- UI/UX -->
+                                    <div class="course-option" onclick="selectCourse(this, 'UI/UX')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="UI/UX" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-desktop"></i>
+                                      </div>
+                                      <span class="course-name">UI/UX</span>
+                                    </div>
+                                    <div class="course-option" onclick="selectCourse(this, 'digital-marketing')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Digital marketing" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-bullhorn"></i>
+                                      </div>
+                                      <span class="course-name">Digital Marketing</span>
+                                    </div>
+                      
+                                    <!-- Animation -->
+                                    <div class="course-option" onclick="selectCourse(this, 'Animation Designing')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType %>" value="Animation Designing" class="hidden-input">
+                                      <div class="course-icon-container">
+                                        <i class="fas fa-film"></i>
+                                      </div>
+                                      <span class="course-name">Animation Designing</span>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class=" w-full labeldeg">
+                                <label for="degree">Choose Degree</label>
+                                <div class="degree-grid">
+                                    <!-- Diploma -->
+                                     
+                                    <div class="degree-option" onclick="selectDegree(this, 'Diploma')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel %>" value="Diploma" class="hidden-input" required>
+                                      <span class="degree-name">Diploma</span>
+                                    </div>
+                                    
+                                    <!-- Advanced Diploma -->
+                                    <div class="degree-option" onclick="selectDegree(this, 'Advanced Diploma')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel %>" value="Advanced Diploma" class="hidden-input">
+                                      <span class="degree-name">Advanced Diploma</span>
+                                    </div>
+                                    
+                                    <!-- Bachelor -->
+                                    <div class="degree-option" onclick="selectDegree(this, 'Bachelor')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel %>" value="Bachelor" class="hidden-input">
+                                      <span class="degree-name">Bachelor</span>
+                                    </div>
+                                    
+                                    <!-- Master -->
+                                    <div class="degree-option" onclick="selectDegree(this, 'Master')">
+                                      <input type="radio" name="<%= BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel %>" value="Master" class="hidden-input">
+                                      <span class="degree-name">Master</span>
+                                    </div>
+                                  </div>
+                            </div>
+                            <input type="hidden" name="<%= WEBSITE_ID_KEY %>" value="<%= websiteID %>">
+                            <button class="btn btn-primary btn-md text-white mt-2" style="font-family: graphik,sans-serif;" type="submit">Submit Enquiry</button>
+                            <p class="text-center">Or drop us a message via <a class="uc-link" href="mailto:hello@lexend.co">email</a>.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section end -->
+
+    <!-- Section start -->
+   <%- include('./partials/waystoreach.ejs') %>
+    <!-- Section end -->
+
+    <!-- Section start -->
+    <div id="faq" class="section panel overflow-hidden">
+        <div class="section-outer panel pb-7 sm:pb-8 xl:pb-9">
+            <div class="container max-w-lg">
+                <div class="section-inner panel" data-anime="onview: -100; targets: >*; translateY: [48, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
+                    <div class="panel">
+                        <h2 class="h4 sm:h3 lg:h2 m-0 text-center">Frequenlty asked questions:</h2>
+                        <div class="panel mt-4 sm:mt-6 lg:mt-8 p-3 sm:p-4 xl:p-6 lg:max-w-750px xl:w-auto m-auto rounded-2 bg-secondary dark:bg-gray-800">
+                            <ul class="gap-4" data-uc-accordion="targets: > li;">
+                                <li class="uc-open">
+                                    <a class="uc-accordion-title fs-5 sm:fs-4" href="#">Do I need to know about how to code?</a>
+                                    <div class="uc-accordion-content">
+                                        <p>Yes, you need to have a fair amount of knowledge in dealing with HTML/CSS as well as JavaScript in order to be able to use Lexend.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uc-accordion-title fs-5 sm:fs-4" href="#">Can I use it for commercial projects?</a>
+                                    <div class="uc-accordion-content">
+                                        <p>Feel free to do so. Lexend does exist to evolve every commercial project. You can also use it to build stunning websites for your own clients (we won’t breathe a word).</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uc-accordion-title fs-5 sm:fs-4" href="#">Can I use it for multiple projects?</a>
+                                    <div class="uc-accordion-content">
+                                        <p>Definitely! Please use it however you like; we don’t limit it.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uc-accordion-title fs-5 sm:fs-4" href="#">Can I use this to create and sell a product?</a>
+                                    <div class="uc-accordion-content">
+                                        <p>Do not ever consider doing it.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uc-accordion-title fs-5 sm:fs-4" href="#">What is your refund policy?</a>
+                                    <div class="uc-accordion-content">
+                                        <p>We understand the importance of customer satisfaction and we strive to provide the best products and services. However, please note that due to the nature of our products and services, we do not offer refunds after a purchase has been made.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section end -->
+
+    <!-- Section start -->
+    <%- include('partials/clientle.ejs')  %>
+
+    <!-- Section end -->
+
+    <!-- Section start -->
+    <div id="blog_posts" class="section panel overflow-hidden gap-3 bg-secondary dark:bg-gray-800">
+        <div class="section-outer panel py-6 xl:py-9">
+            <div class="container max-w-xl">
+                <div class="section-inner panel">
+                    <div class="panel vstack items-center gap-4 sm:gap-6 xl:gap-8" data-anime="onview: -100; targets: >*; translateY: [48, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
+                        <h2 class="h3 lg:h2 xl:h1 max-w-400px lg:max-w-750px m-auto text-center">Gain valuable insights</h2>
+                        <div class="panel">
+                            <div style="display: flex
+;
+    flex-wrap: wrap;
+    gap: 15px;">
+                                <% blogs.forEach(item => { %>
+                                <div>
+                                    <article class="post type-post panel vstack gap-3 rounded-3 p-2 pb-3 bg-white dark:bg-gray-800" style="height: 403px; width:390px">
+                                        <a class='position-absolute top-0 ltr:start-0 rtl:end-0 m-3 fs-7 fw-bold text-none z-1 bg-primary text-white py-narrow px-1' href='/insight/<%= item.seoDetails.slug %>' style='border-radius: 8px'><%=  item.category %></a>
+                                        <figure class="featured-image m-0 rounded ratio ratio-3x2 rounded-2 uc-transition-toggle overflow-hidden">
+                                            <img class="media-cover image uc-transition-scale-up uc-transition-opaque" src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt="Top 5 reasons to invest in marketing">
+                                            <a class='position-cover' data-caption='Top 5 reasons to invest in marketing' href='/insight/<%= item.seoDetails.slug %>'></a>
+                                        </figure>
+                                        <header class="panel vstack items-center gap-1 lg:gap-2 px-2">
+                                            <h3 class="h5 xl:h4 m-0 text-center m-0">
+                                                <a class='text-none' href='/insight/<%= item.seoDetails.slug %>'><%= item.title %></a>
+                                            </h3>
+                                            <ul class="post-meta nav-x ft-tertiary justify-center gap-1 fs-7 text-gray-400 dark:text-gray-300 d-none lg:d-flex">
+                                                
+                                                <li>
+                                                    <div class="post-date hstack gap-narrow">
+                                                        <span><%= item.postDate %></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </header>
+                                    </article>
+                                </div>
+                                <% }) %>
+                            
+                            </div>
+                        </div>
+                        <a class='uc-link fw-bold d-inline-flex items-center gap-narrow' href='/blogs'>
+                            <span>View more articles</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section end -->
+</div>
+
+<script>
+    // Improved selection functions
+    function selectCourse(element, value) {
+      // Clear all selections first
+      document.querySelectorAll('.course-option').forEach(el => {
+        el.classList.remove('selected');
+        el.querySelector('.course-icon-container').classList.remove('selected');
+        el.querySelector('.course-name').classList.remove('selected-text');
+      });
+      
+      // Set the selected radio button
+      const radioInput = element.querySelector('input[type="radio"]');
+      radioInput.checked = true;
+      
+      // Add selected classes
+      element.classList.add('selected');
+      element.querySelector('.course-icon-container').classList.add('selected');
+      element.querySelector('.course-name').classList.add('selected-text');
+    }
+    
+    function selectDegree(element, value) {
+      // Clear all selections first
+      document.querySelectorAll('.degree-option').forEach(el => {
+        el.classList.remove('selected');
+        el.querySelector('.degree-name').classList.remove('selected-text');
+      });
+      
+      // Set the selected radio button
+      const radioInput = element.querySelector('input[type="radio"]');
+      radioInput.checked = true;
+      
+      // Add selected classes
+      element.classList.add('selected');
+      element.querySelector('.degree-name').classList.add('selected-text');
+    }
+    
+    // Form submission handler
+    document.getElementById('admissionForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent the default form submission
+    
+        try {
+            const API_BASE_URL = "<%= API_BASE_URL %>";
+            const websiteID = "<%= websiteID %>";
+            const WEBSITEIDKEY = "<%= WEBSITE_ID_KEY %>";
+            const BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS = <%- JSON.stringify(BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS) %>;
+    
+            const CREATE_BOOKING_ENQUIRY_END_POINT = `${API_BASE_URL}/website/service-enquiry/create-service-enquiry`;
+    
+            const form = e.target; // Reference to the form element
+            const WEBSITE_ID_KEY = WEBSITEIDKEY;
+    
+            // Prepare the payload from the form fields
+            const payload = {
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.name]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.name}"]`
+                ).value,
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone}"]`
+                ).value,
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.city]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.city}"]`
+                ).value,
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.qualification]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.qualification}"]`
+                ).value,
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.serviceType}"]:checked`
+                )?.value,
+                [BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel]: form.querySelector(
+                    `input[name="${BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS.degreeLevel}"]:checked`
+                )?.value,
+                [WEBSITE_ID_KEY]: websiteID,
+                websiteProjectId: "67f7c952269ac2513528f81b"
+            };
+    
+            // Set headers for the request
+            const headers = new Headers({
+                "Content-Type": "application/json",
+            });
+    
+            // Send POST request to the API
+            const response = await fetch(CREATE_BOOKING_ENQUIRY_END_POINT, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(payload),
+            });
+    
+            // Handle response
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+    
+            // Redirect to thank-you page on successful submission
+            sessionStorage.setItem("thankYouMessage", "We've Received Your Admission inquiry and will Reach out to you soon");
+            window.location.href = "/thankyou";
+    
+        } catch (error) {
+            console.error("Form submission error:", error);
+        }
+    });
+  </script>
+<%- include('footer') %>

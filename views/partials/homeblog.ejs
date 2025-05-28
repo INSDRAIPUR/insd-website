@@ -1,0 +1,63 @@
+  
+    <style>
+        a{
+            font-family: "graphik",sans-serif;
+        }
+        .width-390{
+            width: 390px;
+            height: 403px;
+        }
+        @media (max-width:600px) {
+            .width-390{
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+    <div id="blog_posts" class="section panel overflow-hidden gap-3 bg-secondary dark:bg-gray-800">
+        <div class="section-outer panel py-6 xl:py-9">
+            <div class="container max-w-xl">
+                <div class="section-inner panel">
+                    <div class="panel vstack items-center gap-4 sm:gap-6 xl:gap-8" data-anime="onview: -100; targets: >*; translateY: [48, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
+                        <h2 class="h3 lg:h2 xl:h1 max-w-400px lg:max-w-750px m-auto text-center">Gain valuable insights</h2>
+                        <div class="panel">
+                            <div style="display: flex
+;
+    flex-wrap: wrap;
+    gap: 15px;">
+                                <% blogs.forEach(item => { %>
+                                <div class="width-390">
+                                    <article class="post type-post panel vstack gap-3 rounded-3 p-2 pb-3 bg-white dark:bg-gray-800" style="height: 100%; width:100%">
+                                        <a class='position-absolute top-0 ltr:start-0 rtl:end-0 m-3 fs-7 fw-bold text-none z-1 bg-primary text-white py-narrow px-1' href='/insight/<%= item.seoDetails.slug %>' style='border-radius: 8px'><%=  item.category %></a>
+                                        <figure class="featured-image m-0 rounded ratio ratio-3x2 rounded-2 uc-transition-toggle overflow-hidden">
+                                            <img class="media-cover image uc-transition-scale-up uc-transition-opaque" src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt="Top 5 reasons to invest in marketing">
+                                            <a class='position-cover' data-caption='Top 5 reasons to invest in marketing' href='/insight/<%= item.seoDetails.slug %>'></a>
+                                        </figure>
+                                        <header class="panel vstack items-center gap-1 lg:gap-2 px-2">
+                                            <h3 class="h5 xl:h4 m-0 text-center m-0">
+                                                <a class='text-none' href='/insight/<%= item.seoDetails.slug %>'><%= item.title %></a>
+                                            </h3>
+                                            <ul class="post-meta nav-x ft-tertiary justify-center gap-1 fs-7 text-gray-400 dark:text-gray-300  lg:d-flex">
+                                                
+                                                <li>
+                                                    <div class="post-date hstack gap-narrow">
+                                                        <span><%= item.postDate %></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </header>
+                                    </article>
+                                </div>
+                                <% }) %>
+                            
+                            </div>
+                        </div>
+                        <a class='uc-link fw-bold d-inline-flex items-center gap-narrow' href='/blogs'>
+                            <span>View more Posts</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
