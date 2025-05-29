@@ -119,6 +119,11 @@
         bottom: 10px !important;
     }
     
+    /* Prevent background scrolling when popup is open */
+    body.no-scroll {
+        overflow: hidden;
+    }
+    
     @media (max-width: 768px) {
         .popup-desktop-banner {
             display: none;
@@ -131,7 +136,7 @@
         }
         .popup-close-btn {
             top: -20px;
-            right: -20px;
+            right: 0px;
         }
         .popup-slide img {
             height: 100%;
@@ -196,6 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Show popup
   function showPopup() {
       console.log('Showing popup');
+      // Prevent background scrolling
+      document.body.classList.add('no-scroll');
       popupOverlay.style.display = "flex";
       setTimeout(() => {
           popupOverlay.style.opacity = "1";
@@ -214,6 +221,8 @@ document.addEventListener("DOMContentLoaded", function () {
       popupOverlay.style.opacity = "0";
       setTimeout(() => {
           popupOverlay.style.display = "none";
+          // Re-enable background scrolling
+          document.body.classList.remove('no-scroll');
           if (desktopSwiper) desktopSwiper.autoplay.stop();
           if (mobileSwiper) mobileSwiper.autoplay.stop();
       }, 300);
@@ -236,5 +245,3 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
-
-    
