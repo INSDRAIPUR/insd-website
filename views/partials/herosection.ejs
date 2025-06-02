@@ -69,40 +69,67 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="panel p-20" style="width: 100%; padding: 0; margin: 0; background-color: #19182c; position: relative;">
-            <figure style="max-height: 100vh; margin: 0;" class="featured-image m-0 rounded ratio ratio-16x9 lg:rounded-2 overflow-hidden">
-              
-              <!-- ✅ Thumbnail Image Overlay -->
-              <div id="video-thumb" style="position:absolute; top:0; left:0; width:100%; height:100%; background: url('https://img.youtube.com/vi/P0DX6nYbM5k/maxresdefault.jpg') center center / cover no-repeat; z-index: 2;"></div>
-          
-              <!-- ✅ YouTube Iframe -->
-              <iframe
-                id="yt-video"
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/P0DX6nYbM5k?autoplay=1&mute=1&loop=1&playlist=P0DX6nYbM5k&controls=0&modestbranding=1&rel=0&fs=0"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                style="pointer-events: none; scale: 1.18; z-index: 1;"
-              ></iframe>
-            </figure>
-          </div>
-          
-          <script>
-            // Wait until iframe is ready, then hide the thumbnail
-            window.addEventListener("load", function () {
-              const iframe = document.getElementById("yt-video");
-              const thumb = document.getElementById("video-thumb");
-          
-              // A slight delay ensures autoplay starts and avoids flash of black screen
-              setTimeout(() => {
-                thumb.style.opacity = "0";
-                thumb.style.transition = "opacity 0.5s ease";
-              }, 1000); // Adjust delay if needed
-            });
-          </script>
-          
-          
+               <div class="panel p-20" style="width: 100%; padding: 0; margin: 0; background-color: #19182c; position: relative;">
+  <figure style="max-height: 100vh;" class="featured-image m-0 rounded ratio ratio-16x9 lg:rounded-2 overflow-hidden">
+    <div id="video-player" style="  scale:1.18; width: 100%; height: 100%; cursor: pointer;"></div>
+  </figure>
+</div>
+
+<script>
+  let player;
+  let hasBeenPlayed = false;
+
+  // Load YouTube API
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player("video-player", {
+      videoId: "P0DX6nYbM5k",
+      playerVars: {
+        autoplay: 0,
+        mute: 0,
+        controls: 0,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        fs: 0,
+      },
+      events: {
+        onReady: onPlayerReady,
+      },
+    });
+  }
+
+  function onPlayerReady() {
+    const container = document.getElementById("video-player");
+
+    // Play on click with unmute
+    container.addEventListener("click", () => {
+      player.playVideo();
+      player.unMute();
+      hasBeenPlayed = true;
+    });
+
+    // Observe scroll to pause only if it was played
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && hasBeenPlayed) {
+            player.pauseVideo();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(container);
+  }
+</script>
+
+                      
+                          
       </div>
   </div>
   <!-- 6WR5cg4Afqk -->

@@ -329,7 +329,104 @@
                 </div>
             </nav>
         </header>
+        <style>
+    .side-button {
+        padding: 10px 15px;
+        font-size: 16px;
+        color: #14b685 !important;
+        background-color: white;
+        box-shadow: 0 0 6px #c8c8c8;
+        border-top-left-radius: 20px !important;
+        text-decoration: none;
+        border-bottom-left-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      
+      .side-button2 {
+        background-color: #14b685;
+        color: white !important;
+        box-shadow: 0 0 4px #c8c8c8;
+        padding: 10px 15px;
+        font-size: 16px;
+
+        border-top-right-radius: 20px !important;
+        text-decoration: none;
+        border-bottom-left-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .sidebutton {
+        position: fixed;
+        right: -107px;
+        top: 55%;
+       
+        z-index: 101;
+        text-decoration: none;
+      
+        /* Start: hidden and slightly off to the right */
+        transform: translateX(100px) rotate(-90deg);
+        opacity: 0;
+        pointer-events: none;
+      
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+      
+      /* Show class makes it slide in */
+      .sidebutton.show {
+        transform: translateX(0) rotate(-90deg);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      
+      @media (max-width:768px) {
+        .side-button {
+          display: none;
+          padding: 6px 20px 25px 20px !important;
+          font-size: 14px;
+          top: 50%;
+        }
+      
+        .side-button2 {
+          border-top-left-radius: 20px !important;
+        }
+      
+        .sidebutton {
+          right: -45px;
+        }
+      }
+      
+     
+</style>
+
+<div class="sidebutton" id="scrollButton">
+    <a class="side-button" href="/admission">
+      Enquire Now
+    </a>
+    <a class="side-button2" href="https://api.whatsapp.com/send?phone=+918871679000&amp;text=Hello,%20I%20am%20interested%20in%20learning%20more%20about%20the%20courses.%20Could%20you%20please%20share%20furthur%20Details%20about%20the%20programs?">
+      <i style="margin-right: 4px;" class="fa-brands fa-whatsapp"></i> Whatsapp
+    </a>
+  </div>
+  
+  
+  <script>
+    window.addEventListener("scroll", function () {
+      const scrollBtn = document.getElementById("scrollButton");
+      const isMobile = window.innerWidth <= 768;
+      const scrollThreshold = isMobile ? 200 : 800;
+  
+      if (window.scrollY > scrollThreshold) {
+        scrollBtn.classList.add("show");
+      } else {
+        scrollBtn.classList.remove("show");
+      }
+    });
+  </script>
+  
         <script>
+            
             // JavaScript to toggle logo based on sticky state
             document.addEventListener('DOMContentLoaded', function () {
                 const navbar = document.querySelector('.uc-navbar-container');
