@@ -2,7 +2,7 @@
 <div id="videoModal" class="review-popup">
     <div class="review-popup-content">
         <div class="video-container-portrait">
-            <iframe id="modalVideo" src="" frameborder="0" style="max-width: 400px; width:100%; height:600px; object-fit:cover" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="modalVideo" src="" frameborder="0" style="max-width: 340px; width:100%; height:600px; object-fit:cover" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <button class="close-popup" onclick=" closeVideoModal(); return false;">×</button>
     </div>
@@ -47,7 +47,7 @@
                                                             class="youtube-video">
                                                     </iframe>
                                                     <button class="play-btn-overlay" data-video-id="<%= videoId %>" onclick="event.preventDefault(); event.stopPropagation(); openVideoModal('<%= videoId %>'); return false;">
-                                                        <i class="fas fa-play"></i>
+                                                        <i class="fa-solid fa-volume-high"></i>
                                                     </button>
                                                 </div>
                                             <% } else { %>
@@ -151,7 +151,7 @@
     .review-popup-content {
        
         border-radius: 12px;
-        width: 400px;
+        width: 340px;
         max-height: 600px;
         height: 100%;
         justify-content: center;
