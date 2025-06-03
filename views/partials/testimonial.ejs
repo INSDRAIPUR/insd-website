@@ -1,10 +1,10 @@
 <!-- Video Modal -->
 <div id="videoModal" class="review-popup">
-    <div class="review-popup-content" style="width: 80%; max-width: 800px;">
+    <div class="review-popup-content">
         <div class="video-container-portrait">
-            <iframe id="modalVideo" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope" allowfullscreen></iframe>
+            <iframe id="modalVideo" src="" frameborder="0" style="max-width: 400px; width:100%; height:600px; object-fit:cover" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <button class="close-popup" onclick="closeVideoModal()">×</button>
+        <button class="close-popup" onclick=" closeVideoModal(); return false;">×</button>
     </div>
 </div>
 
@@ -15,7 +15,7 @@
             <p id="fullReviewText"></p>
         </div>
     </div>
-    <button class="close-popup" onclick="closeReviewPopup()">×</button>
+    <button class="close-popup" onclick="event.preventDefault(); event.stopPropagation(); closeReviewPopup(); return false;">×</button>
 </div>
 
 <!-- Testimonial Section -->
@@ -40,13 +40,13 @@
                                                 <div class="video-container-portrait">
                                                     <iframe src="https://www.youtube.com/embed/<%= videoId %>?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=<%= videoId %>&modestbranding=1&showinfo=0&controls=0&disablekb=1&fs=0&rel=0" 
                                                             frameborder="0" 
-                                                            style="scale:1.4"
+                                                            style="scale:1.4; pointer-events: none;"
                                                             allow="accelerometer; encrypted-media; gyroscope"
                                                             allowfullscreen
                                                             id="video-<%= videoId %>"
                                                             class="youtube-video">
                                                     </iframe>
-                                                    <button class="play-btn" data-video-id="<%= videoId %>">
+                                                    <button class="play-btn-overlay" data-video-id="<%= videoId %>" onclick="event.preventDefault(); event.stopPropagation(); openVideoModal('<%= videoId %>'); return false;">
                                                         <i class="fas fa-play"></i>
                                                     </button>
                                                 </div>
@@ -86,7 +86,7 @@
                                                     <p class="fs-6 sm:fs-5 lg:fs-4 fw-bold mt-1 sm:mt-4 dark:text-white" style="padding: 12px;">
                                                         <%= displayText %>
                                                         <% if (slide.review.length > 450) { %>
-                                                            <span class="read-more-btn" onclick="openReviewPopup(`<%= slide.review.replace(/'/g, '\\\'').replace(/"/g, '"') %>`)">
+                                                            <span class="read-more-btn" onclick="event.preventDefault(); event.stopPropagation(); openReviewPopup(`<%= slide.review.replace(/'/g, '\\\'').replace(/"/g, '"') %>`); return false;">
                                                                 Read More
                                                             </span>
                                                         <% } %>
@@ -125,7 +125,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.8);
         backdrop-filter: blur(10px);
         display: none;
         justify-content: center;
@@ -149,16 +149,18 @@
         background: #555;
     }
     .review-popup-content {
-        background: white;
-        padding: 40px;
+       
         border-radius: 12px;
-        width: 50%;
-        max-height: 85vh;
+        width: 400px;
+        max-height: 600px;
+        height: 100%;
+        justify-content: center;
         display: flex;
         flex-direction: column;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         transform: scale(0.8);
         transition: transform 0.3s ease-in-out;
+        position: relative;
     }
     .review-popup-scroll {
         overflow-y: auto;
@@ -174,7 +176,7 @@
     }
     @media (max-width: 600px) {
         .review-popup-content {
-            padding: 20px;
+            padding: 0;
             margin: 10px;
             width: 90%;
         }
@@ -198,6 +200,10 @@
         color: white;
         font-weight: bold;
         z-index: 1001;
+        border-radius: 50%;
+    }
+    #videoModal .close-popup:hover, #reviewPopup .close-popup:hover {
+        background-color: #555;
     }
     .testimonial-text {
         color: #323232;
@@ -216,11 +222,17 @@
         padding: 5px 8px 5px 0;
         border-radius: 4px;
     }
+    .read-more-btn:hover {
+        color: #666;
+    }
     body.modal-open {
         overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
     }
     .review-popup.show {
-        display: flex;
+        display: flex !important;
         opacity: 1;
     }
     .review-popup.show .review-popup-content {
@@ -232,6 +244,7 @@
         height: 100vh;
         max-height: 600px;
         overflow: hidden;
+        border-radius: 12px;
     }
     .video-container-portrait iframe {
         position: absolute;
@@ -240,11 +253,9 @@
         width: 100%;
         height: 100%;
         border: none;
+        border-radius: 12px;
     }
-    .youtube-video {
-        pointer-events: none;
-    }
-    .play-btn {
+    .play-btn-overlay {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -261,12 +272,13 @@
         justify-content: center;
         align-items: center;
         z-index: 10;
-        transition: background 0.2s ease;
+        transition: all 0.2s ease;
     }
-    .play-btn:hover {
+    .play-btn-overlay:hover {
         background: rgba(0, 0, 0, 0.9);
+        transform: translate(-50%, -50%) scale(1.1);
     }
-    .play-btn i {
+    .play-btn-overlay i {
         margin-left: 3px;
     }
     .padding-3 {
@@ -276,6 +288,11 @@
         .padding-3 {
             padding: 0.8rem;
         }
+        .play-btn-overlay {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
     }
 </style>
 
@@ -283,19 +300,34 @@
     let videoPlayers = {};
     let swiperInstances = {};
     let currentActiveSlide = 0;
+    let isYouTubeAPIReady = false;
+    let scrollPosition = 0; // Store scroll position
 
     function onYouTubeIframeAPIReady() {
+        console.log('YouTube API is ready');
+        isYouTubeAPIReady = true;
+        
         // Initialize YouTube players for carousel videos
         document.querySelectorAll('.youtube-video').forEach(iframe => {
             const videoId = iframe.id.replace('video-', '');
-            videoPlayers[videoId] = new YT.Player(iframe.id, {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
+            console.log('Initializing YouTube player for video ID:', videoId);
+            
+            try {
+                videoPlayers[videoId] = new YT.Player(iframe.id, {
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            } catch (error) {
+                console.error('Error initializing YouTube player:', error);
+            }
         });
 
+        initializeSwipers();
+    }
+
+    function initializeSwipers() {
         // Initialize swiper instances
         const imageSwiper = new Swiper('.connect-image', {
             effect: 'fade',
@@ -304,22 +336,42 @@
             },
             allowTouchMove: false,
             autoHeight: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
             on: {
                 slideChange: function(swiper) {
                     currentActiveSlide = swiper.activeIndex;
-                    // Pause all videos
+                    console.log('Slide changed to index:', currentActiveSlide);
+                    
+                    // Pause all videos first
                     Object.values(videoPlayers).forEach(player => {
-                        player.pauseVideo();
-                    });
-                    // Play the video in the new slide if it exists
-                    const activeSlide = swiper.slides[swiper.activeIndex];
-                    const iframe = activeSlide.querySelector('iframe.youtube-video');
-                    if (iframe) {
-                        const videoId = iframe.id.replace('video-', '');
-                        if (videoPlayers[videoId]) {
-                            videoPlayers[videoId].playVideo();
+                        try {
+                            if (player && player.pauseVideo) {
+                                player.pauseVideo();
+                            }
+                        } catch (error) {
+                            console.error('Error pausing video:', error);
                         }
-                    }
+                    });
+                    
+                    // Play the video in the new slide if it exists
+                    setTimeout(() => {
+                        const activeSlide = swiper.slides[swiper.activeIndex];
+                        const iframe = activeSlide.querySelector('iframe.youtube-video');
+                        if (iframe) {
+                            const videoId = iframe.id.replace('video-', '');
+                            if (videoPlayers[videoId]) {
+                                console.log('Playing video:', videoId);
+                                try {
+                                    videoPlayers[videoId].playVideo();
+                                } catch (error) {
+                                    console.error('Error playing video:', error);
+                                }
+                            }
+                        }
+                    }, 100);
                 }
             }
         });
@@ -329,7 +381,11 @@
             fadeEffect: {
                 crossFade: true
             },
-            autoHeight: true
+            autoHeight: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            }
         });
 
         // Connect the two swipers
@@ -338,105 +394,240 @@
 
         swiperInstances.image = imageSwiper;
         swiperInstances.text = textSwiper;
-
-        // Add click event listeners to play buttons
-        document.addEventListener('click', function(event) {
-            const playBtn = event.target.closest('.play-btn');
-            if (playBtn) {
-                event.preventDefault();
-                event.stopPropagation();
-                const videoId = playBtn.getAttribute('data-video-id');
-                if (videoId) {
-                    openVideoModal(videoId);
-                }
-            }
-        });
     }
 
     function onPlayerReady(event) {
+        console.log('Player ready for video ID:', event.target.getVideoData().video_id);
         // Autoplay muted video
-        event.target.playVideo();
+        try {
+            event.target.mute();
+            event.target.playVideo();
+        } catch (error) {
+            console.error('Error in onPlayerReady:', error);
+        }
     }
 
     function onPlayerStateChange(event) {
         if (event.data === YT.PlayerState.ENDED) {
-            // Replay the video to create a seamless loop
-            event.target.seekTo(0);
-            event.target.playVideo();
-        }
-    }
-
-    function openVideoModal(videoId) {
-        const modal = document.getElementById('videoModal');
-        const iframe = document.getElementById('modalVideo');
-        iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=0&modestbranding=1&showinfo=0&controls=1&rel=0`;
-        modal.style.display = 'flex';
-        setTimeout(() => modal.classList.add('show'), 10);
-        document.body.classList.add('modal-open');
-
-        // Pause the carousel video
-        if (videoPlayers[videoId]) {
-            videoPlayers[videoId].pauseVideo();
-        }
-    }
-
-    function closeVideoModal() {
-        const modal = document.getElementById('videoModal');
-        const iframe = document.getElementById('modalVideo');
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            iframe.src = ''; // Stop the video
-        }, 300);
-        document.body.classList.remove('modal-open');
-
-        // Resume the carousel video for the current slide
-        const activeSlide = swiperInstances.image.slides[currentActiveSlide];
-        const activeIframe = activeSlide.querySelector('iframe.youtube-video');
-        if (activeIframe) {
-            const videoId = activeIframe.id.replace('video-', '');
-            if (videoPlayers[videoId]) {
-                videoPlayers[videoId].playVideo();
+            console.log('Video ended, replaying:', event.target.getVideoData().video_id);
+            try {
+                // Replay the video to create a seamless loop
+                event.target.seekTo(0);
+                event.target.playVideo();
+            } catch (error) {
+                console.error('Error replaying video:', error);
             }
         }
     }
 
+    function openVideoModal(videoId) {
+        console.log('Opening modal for video ID:', videoId);
+        
+        if (!videoId) {
+            console.error('No video ID provided');
+            return false;
+        }
+
+        // Store current scroll position
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalVideo');
+        
+        if (!modal || !iframe) {
+            console.error('Modal or iframe not found in DOM');
+            return false;
+        }
+
+        // Set the iframe source with unmuted video
+        iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=0&modestbranding=1&showinfo=0&controls=1&rel=0`;
+        
+        // Show modal
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('show');
+            console.log('Modal should be visible now');
+        }, 10);
+        
+        document.body.classList.add('modal-open');
+        // Set body top position to maintain scroll position
+        document.body.style.top = `-${scrollPosition}px`;
+
+        // Pause the carousel video
+        if (videoPlayers[videoId]) {
+            console.log('Pausing carousel video:', videoId);
+            try {
+                videoPlayers[videoId].pauseVideo();
+            } catch (error) {
+                console.error('Error pausing carousel video:', error);
+            }
+        }
+
+        // Pause swiper autoplay
+        if (swiperInstances.image) {
+            swiperInstances.image.autoplay.stop();
+        }
+        if (swiperInstances.text) {
+            swiperInstances.text.autoplay.stop();
+        }
+
+        return false;
+    }
+
+    function closeVideoModal() {
+        console.log('Closing video modal');
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('modalVideo');
+        
+        if (!modal || !iframe) {
+            console.error('Modal or iframe not found');
+            return false;
+        }
+
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            iframe.src = ''; // Stop the video
+            console.log('Modal hidden, iframe src cleared');
+        }, 300);
+        
+        // Remove modal-open class and restore scroll position
+        document.body.classList.remove('modal-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+
+        // Resume the carousel video for the current slide
+        setTimeout(() => {
+            if (swiperInstances.image && swiperInstances.image.slides) {
+                const activeSlide = swiperInstances.image.slides[currentActiveSlide];
+                const activeIframe = activeSlide ? activeSlide.querySelector('iframe.youtube-video') : null;
+                
+                if (activeIframe) {
+                    const videoId = activeIframe.id.replace('video-', '');
+                    if (videoPlayers[videoId]) {
+                        console.log('Resuming carousel video:', videoId);
+                        try {
+                            videoPlayers[videoId].playVideo();
+                        } catch (error) {
+                            console.error('Error resuming carousel video:', error);
+                        }
+                    }
+                }
+            }
+
+            // Resume swiper autoplay
+            if (swiperInstances.image) {
+                swiperInstances.image.autoplay.start();
+            }
+            if (swiperInstances.text) {
+                swiperInstances.text.autoplay.start();
+            }
+        }, 100);
+
+        return false;
+    }
+
     // Load YouTube API
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    } else if (window.YT.Player) {
+        onYouTubeIframeAPIReady();
+    }
 
     // Review Popup Functions
     function openReviewPopup(reviewText) {
-        document.getElementById("fullReviewText").innerText = reviewText;
+        console.log('Opening review popup');
+        
+        // Store current scroll position
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        const fullReviewElement = document.getElementById("fullReviewText");
         const popup = document.getElementById("reviewPopup");
+        
+        if (!fullReviewElement || !popup) {
+            console.error('Review popup elements not found');
+            return false;
+        }
+
+        fullReviewElement.innerText = reviewText;
         popup.style.display = "flex";
         setTimeout(() => popup.classList.add("show"), 10);
+        
         document.body.classList.add("modal-open");
+        // Set body top position to maintain scroll position
+        document.body.style.top = `-${scrollPosition}px`;
+
+        return false;
     }
 
     function closeReviewPopup() {
+        console.log('Closing review popup');
         const popup = document.getElementById("reviewPopup");
+        
+        if (!popup) {
+            console.error('Review popup not found');
+            return false;
+        }
+
         popup.classList.remove("show");
         setTimeout(() => {
             popup.style.display = "none";
         }, 300);
+        
+        // Remove modal-open class and restore scroll position
         document.body.classList.remove('modal-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+        
         return false;
     }
 
-    document.getElementById("reviewPopup").addEventListener("click", function(event) {
-        if (event.target === this) {
-            event.preventDefault();
-            closeReviewPopup();
+    // Close modals when clicking outside content
+    document.addEventListener('DOMContentLoaded', function() {
+        const reviewPopup = document.getElementById("reviewPopup");
+        const videoModal = document.getElementById("videoModal");
+
+        if (reviewPopup) {
+            reviewPopup.addEventListener("click", function(event) {
+                if (event.target === this) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closeReviewPopup();
+                    return false;
+                }
+            });
+        }
+
+        if (videoModal) {
+            videoModal.addEventListener("click", function(event) {
+                if (event.target === this) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closeVideoModal();
+                    return false;
+                }
+            });
         }
     });
 
-    document.getElementById("videoModal").addEventListener("click", function(event) {
-        if (event.target === this) {
-            event.preventDefault();
-            closeVideoModal();
+    // Handle escape key to close modals
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const videoModal = document.getElementById('videoModal');
+            const reviewPopup = document.getElementById('reviewPopup');
+            
+            if (videoModal && videoModal.classList.contains('show')) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeVideoModal();
+            } else if (reviewPopup && reviewPopup.classList.contains('show')) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeReviewPopup();
+            }
         }
     });
 </script>

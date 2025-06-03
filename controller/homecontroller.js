@@ -40,6 +40,15 @@ exports.gettestimonial = async(req, res) => {
 };
 
 
+
+exports.getfeaturedin = async(req, res) => {  
+    const websiteID = await getWebsiteID(); 
+     const data = await fetchData(`${API_BASE_URL}/website/association/get-all-associations/${websiteID}?type=ASSOCIATE`);
+     return data || null
+};
+
+
+
 exports.getclientle = async(req, res) => {  
     const websiteID = await getWebsiteID(); 
      const data = await fetchData(`${API_BASE_URL}/website/association/get-all-associations/${websiteID}?type=CLIENT`);
@@ -75,4 +84,3 @@ exports.getotherjobs = async (slug) => {
 
     return [];
 };
-

@@ -8,24 +8,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="icon" href="/assets/images/icon.png" type="image/x-icon">
-    <meta name="description" content="Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.">
-  
+
+   <title><%= seoDetails?.title %></title>
+    <meta name="description" content="<%= seoDetails?.metaDescription %>">
+ 
+
+    <meta name="description" content="<%= seoDetails?.metaDescription || '' %>">
+
     <!-- Open Graph meta tags for social sharing -->
-    <meta property="og:title" content="INSD Raipur | Premier Design Institute in Chhattisgarh">
-    <meta property="og:description" content="Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.">
-    <meta property="og:image" content="/assets/images/metalogo.png">
-    <meta name="author" content="INSD">
+    <meta property="og:title" content="<%= seoDetails?.title || '' %>">
+    <meta property="og:description" content="<%= seoDetails?.metaDescription || '' %>">
+    <meta property="og:image" content="<%= seoDetails?.metaImage || '' %>"> 
+    <meta property="keyword" content="<%= seoDetails?.metaKeyword || '' %>"> 
     <meta property="og:type" content="website">
-    <meta name="keywords" content="insd raipur, design institute raipur, fashion design raipur, interior design chhattisgarh, graphic design course, animation school india, photography classes, digital marketing raipur, top design college, insd branches">
-   
+
+    <meta property="og:image:alt" content="Meta Image">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= seoDetails?.title || '' %>">
+<meta name="twitter:description" content="<%= seoDetails?.metaDescription || '' %>">
+<link rel="canonical" href="https://www.insdraipur.com<%= seoDetails?.canonical || '' %>">
+<meta name="author" content="INSD">
+
+
+
+
+
+    <link rel="icon" href="/assets/images/icon.png" type="image/x-icon">
   
-  
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="INSD Raipur | Premier Design Institute in Chhattisgarh">
-    <meta name="twitter:description" content="Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.">
-        <meta name="twitter:image" content="/assets/images/metalogo.png">
-        
         <!-- preload head styles -->
         <link rel="preload" href="/assets/css/unicons.min.css" as="style">
         <link rel="preload" href="/assets/css/swiper-bundle.min.css" as="style">
@@ -207,8 +216,8 @@
                             <ul style="width:70%; justify-content:center" class="uc-navbar-nav gap-3 xl:gap-4 d-none lg:d-flex fw-medium ltr:ms-2 ltr:xl:ms-4 rtl:me-2 rtl:xl:me-4">
                                 <li><a href='/about'>About</a></li>
                                 <li>
-                                    <a href="/courses">Courses <span data-uc-navbar-parent-icon></span></a>
-                                    <div class="uc-navbar-dropdown w-900px ft-primary text-unset fs-6 fw-normal p-0 hide-scrollbar rounded-2 overflow-hidden" data-uc-drop="mode: hover; offset: 0; boundary: !.uc-navbar; animation: uc-animation-slide-top-small; duration: 150;">
+                                    <a href="/courses">Courses</a>
+                                    <!--  <span data-uc-navbar-parent-icon></span> <div class="uc-navbar-dropdown w-900px ft-primary text-unset fs-6 fw-normal p-0 hide-scrollbar rounded-2 overflow-hidden" data-uc-drop="mode: hover; offset: 0; boundary: !.uc-navbar; animation: uc-animation-slide-top-small; duration: 150;">
                                         <div class="row child-cols-4 g-0 col-match" data-uc-grid>
                                             <div>
                                                 <ul style="padding-right: 0 !important;" class="uc-nav uc-navbar-dropdown-nav p-2">
@@ -312,9 +321,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </li>
-                                <li><a href='/blogs'>Insights</a></li>
+                                <li><a href='/blogs'>Blogs</a></li>
+                                <li><a href='/events'>Events</a></li>
                                 <li><a href='/gallery'>Glimpses</a></li>
                                 <li><a href='/contact'>Contact</a></li>
                                 

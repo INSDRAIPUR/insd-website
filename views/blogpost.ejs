@@ -633,11 +633,11 @@ function showCustomAlert() {
                           <article class="post type-post panel vstack gap-2">
                               <figure class="featured-image m-0 rounded ratio ratio-4x3 uc-transition-toggle overflow-hidden">
                                   <img class="media-cover image uc-transition-scale-up uc-transition-opaque" src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt="<%=  item.title %>">
-                                  <a class='position-cover' data-caption='How can marketing help your business?' href='/insight/<%= item.seoDetails.slug %>'></a>
+                                  <a class='position-cover' data-caption='How can marketing help your business?' href='/detail/<%= item.seoDetails.slug %>'></a>
                               </figure>
                               <header class="panel vstack gap-1">
                                   <h5 class="h6 sm:h5 md:h4 m-0">
-                                      <a class='text-none' href='/insight/<%= item.seoDetails.slug %>'><%= item.title %></a>
+                                      <a class='text-none' href='/detail/<%= item.seoDetails.slug %>'><%= item.title %></a>
                                   </h5>
                                   <div class="post-date hstack gap-narrow fs-7 opacity-60">
                                       <span><%= item.postDate %></span>

@@ -17,7 +17,7 @@
             <div class="container max-w-xl">
                 <div class="section-inner panel vstack gap-3" data-anime="targets: >*; translateY: [48, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100);">
                     <header class="page-header vstack justify-center items-center gap-2 md:gap-4 text-center max-w-650px mx-auto">
-                        <h1 class="h2 sm:h1 lg:display-6 xl:display-5 m-0 mb-4">Blogs</h1>
+                        <h1 class="h2 sm:h1 lg:display-6 xl:display-5 m-0 mb-4">Events</h1>
                         
                         <!-- Filter Tabs -->
                         <% 
@@ -28,7 +28,7 @@
                         };
                         
                         const availableCategories = {};
-                        blogs.forEach(blog => {
+                        event.forEach(blog => {
                             availableCategories[blog.category] = true;
                         });
                         %>
@@ -46,8 +46,8 @@
                     </header>
                     
                     <!-- Featured Post (First Blog) -->
-                    <% if (blogs.length > 0) { 
-                        const featuredPost = blogs[0];
+                    <% if (event.length > 0) { 
+                        const featuredPost = event[0];
                     %>
                     <div class="col-12 featured-post" data-category="<%= featuredPost.category %>">
                         <article class="post type-post panel rounded-3 p-3 bg-secondary dark:bg-gray-800">
@@ -83,7 +83,7 @@
                     
                     <!-- Regular Posts Grid -->
                     <div class="row child-cols-12 sm:child-cols-4 col-match gy-4 sm:gy-6 xl:gy-8 gx-2 xl:gx-4" id="posts-grid">
-                        <% blogs.forEach((item, index) => { 
+                        <% event.forEach((item, index) => { 
                             if (index === 0) return; // Skip first item as it's featured
                         %>
                         <div class="post-item" data-category="<%= item.category %>" onclick="window.location.href='/detail/<%= item.seoDetails.slug %>';">

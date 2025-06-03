@@ -1,8 +1,8 @@
 require('dotenv').config();  // Load environment variables from .env file
 const { API_BASE_URL , WEBSITE_ID_KEY} = require('./config/config');
 const { getWebsiteID } = require('./utils/helper');
-const { getHomeDesktopBanner ,gettestimonial ,getAdBanner,getHomepopupBanner,getjobs,getotherjobs,getjobdetails ,getclientle  } = require('./controller/homecontroller');
-const { getBlog ,getBlogfull,getrelatedposts} = require('./controller/blogcontroller');
+const { getHomeDesktopBanner ,gettestimonial ,getAdBanner,getHomepopupBanner,getjobs,getotherjobs,getjobdetails ,getclientle ,getfeaturedin } = require('./controller/homecontroller');
+const { getBlog ,getBlogfull,getrelatedposts, getevents ,getposts} = require('./controller/blogcontroller');
 const { getgallery,getLatestGalleryImages} = require('./controller/gallerycontroller');
 const { CONTACT_ENQUIRY_DYNAMIC_FIELDS_KEYS ,CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS , BOOKING_ENQUIRY_DYNAMIC_FIELDS_KEYS} = require('./config/config');
 
@@ -10,7 +10,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = 3005;
-const metaLogoPath = "/assets/images/meta-image.png";
+const metaLogoPath = "/assets/images/metalogo.png";
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); // Define the views directory
@@ -25,32 +25,33 @@ app.get('/', async (req, res) => {
     const websiteID = await getWebsiteID(); 
     const banners = await getHomeDesktopBanner();
     const testimonial = await gettestimonial();
-    const blogs = await getBlog();
+    const posts = await getposts();
+    const feat = await getfeaturedin();
     const gallery= await getgallery();
     const clients = await getclientle();
     const popupbanners = await getHomepopupBanner();
    const latestImages = await getLatestGalleryImages();
    const seoDetails = {
-    title: "Alphabetz Preschool Dongargarh | Quality Early Education",
-    metaDescription: "Alphabetz  Preschool in Dongargarh offers a nurturing environment for early childhood education. Enroll your child for a fun and interactive learning experience.",
+    title: "INSD Raipur | Premier Design Institute in Chhattisgarh",
+    metaDescription: "Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.",
     metaImage: `${baseUrl}/${metaLogoPath}`,
-    keywords: "Alphabetz Preschool, Preschool in Dongargarh, Best preschool in Chhattisgarh, Early childhood education, Play school in Dongargarh, Kindergarten in Dongargarh, Kids learning center",
+    keywords: "insd raipur, design institute raipur, fashion design raipur, interior design chhattisgarh, graphic design course, animation school india, photography classes, digital marketing raipur, top design college, insd branches",
     canonical: `${baseUrl}`,
 };
 
    
    
-    res.render('index', {body: "",baseUrl,latestImages, websiteID,popupbanners,testimonial,blogs,gallery,clients, API_BASE_URL,WEBSITE_ID_KEY, seoDetails,banners});
+    res.render('index', {body: "",baseUrl,feat,latestImages,posts, websiteID,popupbanners,testimonial,gallery,clients, API_BASE_URL,WEBSITE_ID_KEY, seoDetails,banners});
 });
 
 
 app.get('/about', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "About Alphabetz Preschool Dongargarh | Nurturing Early Learning",
-        metaDescription: "Learn about Alphabetz  Preschool in Dongargarh, our vision, mission, and commitment to providing high-quality early childhood education in a safe and engaging environment.",
+        title: "About INSD Raipur | Premier Design Institute in Chhattisgarh",
+        metaDescription: "Learn about INSD Raipur, established in 2013 to offer international design education in Chhattisgarh. Discover our mission, vision, and impact.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "About Alphabetz Preschool, Preschool in Dongargarh, Early childhood education, Play school mission, Kindergarten philosophy, Best preschool in Chhattisgarh",
+        keywords: " INSD Raipur, design institute Chhattisgarh, about INSD, design education",
         canonical: `${baseUrl}/about`,
     };
     
@@ -59,44 +60,17 @@ app.get('/about', async (req, res) => {
 });
 
 
-app.get('/our-spaces', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "Our Spaces | Alphabetz Preschool Dongargarh - Safe & Fun Learning",
-        metaDescription: "Explore the well-designed learning spaces and child-friendly amenities at Alphabetz International Preschool Dongargarh. A safe, engaging, and fun environment for kids.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool amenities, Best preschool in Dongargarh, Learning spaces for kids, Child-friendly classrooms, Safe play area, Kindergarten infrastructure, Play school facilities",
-        canonical: `${baseUrl}/our-spaces`,
-    };
-   
-    res.render('our-spaces', { body: "", baseUrl, seoDetails });
-});
-
-
-app.get('/our-curriculum', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
-    }; 
-   
-    res.render('our-curriculum', { body: "", baseUrl, seoDetails });
-});
-
 
 app.get('/courses', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const testimonial = await gettestimonial();
     const clients = await getclientle();
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Design Courses at INSD Raipur | Explore Your Creative Path",
+        metaDescription: "Browse all design courses offered by INSD Raipur including fashion, interior, animation, UI/UX, and more..",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "design courses Raipur, INSD programs, creative courses Chhattisgarh",
+        canonical: `${baseUrl}/courses`,
     }; 
    
     res.render('courses', { body: "", baseUrl,clients,testimonial, seoDetails });
@@ -105,11 +79,11 @@ app.get('/courses', async (req, res) => {
 app.get('/fashion-designing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: " Fashion Design Course | INSD Raipur",
+        metaDescription: "Learn fashion designing at INSD Raipur with an international curriculum, expert mentors, and industry exposure.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "fashion design course Raipur, fashion designing institute, INSD fashion program",
+        canonical: `${baseUrl}/fashion-designing`,
     }; 
    
     res.render('fashiondesigning', { body: "", baseUrl, seoDetails });
@@ -118,11 +92,11 @@ app.get('/fashion-designing', async (req, res) => {
 app.get('/interior-designing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Interior Design Course | INSD Raipur",
+        metaDescription: "Enroll in INSD Raipur’s interior design course to master aesthetics, space planning, and interior creativity.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "interior design course, space design, interior decorating training",
+        canonical: `${baseUrl}/interior-designing`,
     }; 
    
     res.render('interior', { body: "", baseUrl, seoDetails });
@@ -132,11 +106,11 @@ app.get('/interior-designing', async (req, res) => {
 app.get('/graphic-designing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
+        title: "Graphic Design Course | INSD Raipur",
         metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
         keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        canonical: `${baseUrl}/graphic-designing`,
     }; 
    
     res.render('graphic', { body: "", baseUrl, seoDetails });
@@ -145,11 +119,11 @@ app.get('/graphic-designing', async (req, res) => {
 app.get('/photography', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Photography Course | INSD Raipur",
+        metaDescription: "Master the art of photography with professional training at INSD Raipur. From basics to advanced techniques.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "photography institute, Raipur photography course, creative photography training",
+        canonical: `${baseUrl}/photography`,
     }; 
    
     res.render('photography', { body: "", baseUrl, seoDetails });
@@ -158,11 +132,11 @@ app.get('/photography', async (req, res) => {
 app.get('/digital-marketing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Digital Marketing Course | INSD Raipur",
+        metaDescription: "Become a digital marketing expert with INSD Raipur’s industry-focused training. SEO, social media & more.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: " digital marketing training Raipur, SEO course, online marketing course",
+        canonical: `${baseUrl}/digital-marketing`,
     }; 
    
     res.render('digital', { body: "", baseUrl, seoDetails });
@@ -172,11 +146,11 @@ app.get('/digital-marketing', async (req, res) => {
 app.get('/uiux-designing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "UI/UX Design Course | INSD Raipur",
+        metaDescription: "Learn user interface and experience design at INSD Raipur. Get hands-on with real tools and projects.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "UI UX training, user experience course, web design Raipur",
+        canonical: `${baseUrl}/uiux-designing`,
     }; 
    
     res.render('uiux', { body: "", baseUrl, seoDetails });
@@ -185,14 +159,14 @@ app.get('/uiux-designing', async (req, res) => {
 app.get('/event-management', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Event Management Course | INSD Raipur",
+        metaDescription: "Start your career in event planning with INSD Raipur’s event management course. Learn coordination, planning & execution.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "event planning course, event management training, INSD event course",
+        canonical: `${baseUrl}/event-management`,
     }; 
    
-    res.render('event', { body: "", baseUrl, seoDetails });
+    res.render('event-mgmt', { body: "", baseUrl, seoDetails });
 });
 
 
@@ -200,70 +174,18 @@ app.get('/event-management', async (req, res) => {
 app.get('/animation-designing', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "Our Curriculum | Alphabetz Preschool Dongargarh - Play-Based Learning",
-        metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
+        title: "Animation Design Course | INSD Raipur",
+        metaDescription: " Learn 2D/3D animation and motion graphics with INSD Raipur’s animation design program. Ideal for creative storytellers.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
-        canonical: `${baseUrl}/our-curriculum`,
+        keywords: "animation design course, 3D animation, animation institute Raipur",
+        canonical: `${baseUrl}/animation-designing`,
     }; 
    
     res.render('animation', { body: "", baseUrl, seoDetails });
 });
 
 
-app.get('/a-day-at-alphabetz', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "A Day at Alphabetz | Fun & Learning at Alphabetz Preschool Dongargarh",
-        metaDescription: "Experience a day in the life of a child at Alphabetz Preschool Dongargarh – filled with fun activities, interactive learning, and creative play in a nurturing environment.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool daily schedule, A day at preschool, Kids daily activities, Kindergarten routine, Fun learning for kids, Early education, Preschool timetable",
-        canonical: `${baseUrl}/a-day-at-alphabetz`,
-    }; 
-   
-    res.render('a-day-at-alphabetz', { body: "", baseUrl, seoDetails });
-});
 
-app.get('/our-programmes', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "Our Programmes | Alphabetz Preschool Dongargarh - Learning for Every Age",
-        metaDescription: "Explore the diverse preschool programmes at Alphabetz Dongargarh, designed for toddlers, nursery, and kindergarten students to build strong learning foundations.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool programmes, Best preschool in Dongargarh, Early childhood education, Toddler learning, Kindergarten curriculum, Nursery classes, Child development programmes",
-        canonical: `${baseUrl}/our-programmes`,
-    }; 
-   
-    res.render('our-programmes', { body: "", baseUrl, seoDetails });
-});
-
-
-app.get('/alphabetz-commits', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "Alphabetz Commits | Our Promise to Quality Preschool Education",
-        metaDescription: "At Alphabetz Preschool Dongargarh, we are committed to providing a safe, nurturing, and engaging environment where children thrive through quality early education.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool commitments, Safe learning environment, Quality education for kids, Early childhood care, Best preschool facilities, Kids learning commitment",
-        canonical: `${baseUrl}/alphabetz-commits`,
-    }; 
-   
-    res.render('commits', { body: "", baseUrl, seoDetails });
-});
-
-
-app.get('/smart-speak', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const seoDetails = {
-        title: "Smart Speak | Language & Communication Development for Kids",
-        metaDescription: "Smart Speak at Alphabetz Preschool helps children develop early communication skills, language proficiency, and confidence through interactive learning.",
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Smart Speak, Kids communication skills, Language development for children, Preschool speaking programs, Early childhood speech development",
-        canonical: `${baseUrl}/smart-speak`,
-    }; 
-   
-    res.render('smart-speak', { body: "", baseUrl, seoDetails });
-});
 
 
 app.get('/admission', async (req, res) => {
@@ -272,10 +194,10 @@ app.get('/admission', async (req, res) => {
     const clients = await getclientle();
     const blogs = await getBlog();
     const seoDetails = {
-        title: "Admission | Enroll Your Child at Alphabetz Preschool Dongargarh",
-        metaDescription: "Join Alphabetz Preschool today! Get admission details, eligibility, and process to enroll your child in a fun and nurturing learning environment.",
+        title: "Apply to INSD Raipur | Admissions Open for Design Courses",
+        metaDescription: "Start your design journey at INSD Raipur. Apply now for fashion, interior, graphic, and other creative courses.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool admission, Alphabetz enrollment, Admission process for preschool, Kindergarten admission Dongargarh, Early childhood education",
+        keywords: "apply INSD Raipur, design course admission, creative careers, design school admission",
         canonical: `${baseUrl}/admission`,
     }; 
    
@@ -283,38 +205,38 @@ app.get('/admission', async (req, res) => {
 });
 
 
-app.get('/joblisting', async (req, res) => {
-    const jobs = await getjobs();
-      const baseUrl = req.protocol + '://' + req.get('Host');
-      const testimonial = await gettestimonial();
-      const seoDetails = {
-          title: "",
-          metaDescription: "",
-          metaImage: `${baseUrl}/${metaLogoPath}`,
-          keywords:"",
-          canonical:"",
-      } 
+// app.get('/joblisting', async (req, res) => {
+//     const jobs = await getjobs();
+//       const baseUrl = req.protocol + '://' + req.get('Host');
+//       const testimonial = await gettestimonial();
+//       const seoDetails = {
+//           title: "",
+//           metaDescription: "",
+//           metaImage: `${baseUrl}/${metaLogoPath}`,
+//           keywords:"",
+//           canonical:"",
+//       } 
      
-      res.render('joblisting', {body: "", seoDetails,jobs,testimonial});
-  });
+//       res.render('joblisting', {body: "", seoDetails,jobs,testimonial});
+//   });
   
-  app.get('/listing-enquiry/:slug', async (req, res) => {
-      const jobs = await getjobs();
-      const { slug } = req.params;
-        const baseUrl = req.protocol + '://' + req.get('Host');
-        const websiteID = await getWebsiteID(); 
-        const jobdetails =await getjobdetails(slug);
-        const otherjobs = await getotherjobs(slug);
-        const seoDetails = {
-            title: "",
-            metaDescription: "",
-            metaImage: `${baseUrl}/${metaLogoPath}`,
-            keywords:"",
-            canonical:"",
-        } 
+//   app.get('/listing-enquiry/:slug', async (req, res) => {
+//       const jobs = await getjobs();
+//       const { slug } = req.params;
+//         const baseUrl = req.protocol + '://' + req.get('Host');
+//         const websiteID = await getWebsiteID(); 
+//         const jobdetails =await getjobdetails(slug);
+//         const otherjobs = await getotherjobs(slug);
+//         const seoDetails = {
+//             title: "",
+//             metaDescription: "",
+//             metaImage: `${baseUrl}/${metaLogoPath}`,
+//             keywords:"",
+//             canonical:"",
+//         } 
        
-        res.render('listing-details', {body: "", websiteID,API_BASE_URL,WEBSITE_ID_KEY,seoDetails,jobs,otherjobs,jobdetails,CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS});
-    });
+//         res.render('listing-details', {body: "", websiteID,API_BASE_URL,WEBSITE_ID_KEY,seoDetails,jobs,otherjobs,jobdetails,CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS});
+//     });
   
   
 
@@ -324,35 +246,15 @@ app.get('/gallery', async (req, res) => {
     const gallery = await getgallery();
     
     const seoDetails = {
-        title: "Gallery | Explore Alphabetz Preschool in Dongargarh",
-        metaDescription: "Discover the vibrant learning spaces at Alphabetz Preschool in Dongargarh. Browse high-quality images of our classrooms, play areas, activities, and more.",
+        title: " INSD Raipur Gallery | Student Work, Events & Campus Life",
+        metaDescription: "View highlights of student projects, campus events, and creative life at INSD Raipur through our vibrant image gallery.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Alphabetz Preschool gallery, Dongargarh preschool images, Early learning center photos, Kids activity space, Kindergarten environment",
+        keywords: "INSD gallery, design student work, campus photos, Raipur institute",
         canonical: `${baseUrl}/gallery`,
     };
 
     res.render('gallery', { body: "", gallery, seoDetails });
 });
-app.get('/gallery/:filter', async (req, res) => {
-    const baseUrl = req.protocol + '://' + req.get('Host');
-    const { filter } = req.params;
-    const gallery = await getgallery();
-
-    const seoDetails = {
-        title: `Alphabetz Preschool Gallery | ${filter} Images & Activities`,
-        metaDescription: `Explore photos of ${filter} at Alphabetz Preschool in Dongargarh. See how we create a nurturing, fun, and educational environment for young learners.`,
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: `Alphabetz Preschool ${filter} images, Dongargarh preschool gallery, Kids activities, Early education spaces, Fun learning areas`,
-        canonical: `${baseUrl}/gallery/${filter}`,
-    };
-
-    res.render('gallery', { body: "", gallery, seoDetails });
-});
-
-
-
-
-
 
 
 app.get('/contact', async (req, res) => {
@@ -361,10 +263,10 @@ app.get('/contact', async (req, res) => {
   const blogs = await getBlog();
   const clients = await getclientle();
     const seoDetails = {
-        title: "Contact Alphabetz Preschool | Get in Touch with Us",
-        metaDescription: "Have questions about admissions, programs, or facilities? Contact Alphabetz Preschool in Dongargarh for inquiries, support, and more. We’re happy to assist you!",
+        title: "Contact INSD Raipur | Reach Us for Admissions & Queries",
+        metaDescription: "Have questions? Contact INSD Raipur for admission inquiries, course details, and career opportunities in design.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Contact Alphabetz Preschool, Preschool admission inquiries, Get in touch with Alphabetz, Alphabetz Preschool Dongargarh contact",
+        keywords: "contact INSD Raipur, design course inquiry, admission help, institute address",
         canonical: `${baseUrl}/contact`,
     };
 
@@ -375,10 +277,10 @@ app.get('/career', async (req, res) => {
     const websiteID = await getWebsiteID();
     
     const seoDetails = {
-        title: "Join Alphabetz Preschool | Career Opportunities in Early Education",
-        metaDescription: "Looking to build a career in early childhood education? Explore job openings at Alphabetz Preschool in Dongargarh. Join our passionate team and help shape young minds.",
+        title: "Career Opportunities | INSD Raipur",
+        metaDescription: "Join the creative team at INSD Raipur. Explore teaching, administrative, and industry roles.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Alphabetz Preschool careers, Teaching jobs at Alphabetz, Preschool job openings, Early education careers in Dongargarh",
+        keywords: "careers at INSD, job openings Raipur, design faculty, institute jobs",
         canonical: `${baseUrl}/career`,
     };
 
@@ -391,10 +293,10 @@ app.get('/blogs', async (req, res) => {
   
     const blogs = await getBlog();
     const seoDetails = {
-        title: "Alphabetz Blog | Early Childhood Education Tips & Parenting Insights",
-        metaDescription: "Explore expert articles on preschool education, child development, parenting tips, and learning activities. Stay updated with Alphabetz Preschool’s latest blogs.",
+        title: "INSD Raipur Blog | Design Trends, Tips & Student Stories",
+        metaDescription: "Explore the latest in fashion, interior, graphic, and digital design with blogs from INSD Raipur. Insights, student stories, and industry tips.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Alphabetz Preschool blog, Early childhood education tips, Parenting advice, Child development articles, Learning activities for preschoolers",
+        keywords: "design blogs, fashion trends, graphic design tips, student stories, INSD Raipur blog",
         canonical: `${baseUrl}/blogs`,
     };
 
@@ -402,11 +304,27 @@ app.get('/blogs', async (req, res) => {
 });
 
 
+app.get('/events', async (req, res) => {
+    const baseUrl = req.protocol + '://' + req.get('Host');
+  
+    const event = await getevents();
+    const seoDetails = {
+        title: " Events at INSD Raipur | Design Shows, Workshops & More",
+        metaDescription: " Stay updated with events at INSD Raipur – from fashion shows to guest lectures and workshops. Discover opportunities to learn and network.",
+        metaImage: `${baseUrl}/${metaLogoPath}`,
+        keywords: " design events Raipur, fashion shows, design workshops, INSD events",
+        canonical: `${baseUrl}/blogs`,
+    };
+
+    res.render('events', { body: "", event, baseUrl, seoDetails });
+});
+
+
 app.get('/thankyou', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
         title: "Thank You for Contacting Us | Your Request Has Been Received",
-        metaDescription: "Thank you for reaching out to Alphabetz. We have received your request and will get back to you shortly. Stay tuned for further updates.",
+        metaDescription: "Thank you for reaching out to INSD. We have received your request and will get back to you shortly. Stay tuned for further updates.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
         keywords:"Thank you page, request confirmation,Thank you message ",
         canonical:"",
@@ -417,7 +335,7 @@ app.get('/thankyou', async (req, res) => {
 
 
 
-app.get('/insight/:slug', async (req, res) => {
+app.get('/detail/:slug', async (req, res) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const { slug } = req.params; // Extract slug from params
     const relatedposts = await getrelatedposts(slug);
@@ -442,7 +360,7 @@ app.get('/insight/:slug', async (req, res) => {
         metaDescription: truncatedDescription, // Use the truncated description
         metaImage: `${baseUrl}/${metaLogoPath}`,
         keywords: `${blogfull.seoDetails.tags}`,
-        canonical:`https://www.karyasiddhico.work/blog/${slug}`,
+        canonical:`https://www.insdraipur.com/detail/${slug}`,
     };
 
     res.render('blogpost', {
@@ -460,9 +378,9 @@ app.get('/insight/:slug', async (req, res) => {
 app.use(async (req, res, next) => {
     const baseUrl = req.protocol + '://' + req.get('Host');
     const seoDetails = {
-        title: "404 - Page Not Found | Alphabetz",
+        title: "404 - Page Not Found | INSD Raipur",
         metaDescription: "Sorry, the page you are looking for cannot be found. Please check the URL or visit our homepage for more information.",
-        metaImage: `${baseUrl}/assets/images/icon/metalogo.png`, // Replace with correct path if needed
+        metaImage: `${baseUrl}/assets/images/metalogo.png`, // Replace with correct path if needed
         keywords: "404 page not found,  page not found, Error page , error",
         canonical: baseUrl + req.originalUrl, // You can use the original URL for canonical
     };
