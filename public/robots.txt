@@ -1,0 +1,55 @@
+# robots.txt for https://www.insdraipur.com/
+
+# General rule for all user agents
+User-agent: *
+Disallow: /admin/       # Restrict access to admin panel
+Disallow: /private/     # Restrict access to private directories
+Disallow: /api/         # Restrict access to API endpoints
+Disallow: /temp/        # Restrict access to temporary files or folders (if applicable)
+Disallow: /test/        # Restrict access to testing or staging directories (if applicable)
+Disallow: /.git/        # Block access to .git directory
+Disallow: /.gitignore   # Block access to .gitignore file
+Disallow: /.gitattributes # Block access to .gitattributes file
+Disallow: /README       # Block access to README file (case-sensitive)
+Disallow: /README.md    # Block access to README.md file
+Disallow: /readme       # Block access to lowercase readme
+Disallow: /readme.md    # Block access to lowercase readme.md
+
+# Prevent indexing of specific file types
+Disallow: /*.php$       # Block PHP files
+Disallow: /*.cgi$       # Block CGI scripts
+Disallow: /*.asp$       # Block ASP files
+Disallow: /*.aspx$      # Block ASPX files
+Disallow: /*.jsp$       # Block JSP files
+Disallow: /*.log$       # Block log files
+Disallow: /*.bak$       # Block backup files
+Disallow: /*.old$       # Block old/archived files
+
+# Block crawling of URLs with specific query parameters
+Disallow: /*?sessionid= # Block session-based URLs
+Disallow: /*?ref=       # Block referral-based URLs
+Disallow: /*?utm_       # Block URLs with UTM tracking parameters
+Disallow: /*?sort=      # Block sortable URLs (if applicable)
+
+# Allow crawling of all other pages
+Allow: /
+
+# Specify crawl delay to prevent server overload (adjust as needed)
+Crawl-delay: 5
+
+# Specify the location of the sitemap for better crawling
+Sitemap: https://www.insdraipur.com/sitemap.xml
+
+# Additional rules for specific bots (if needed)
+User-agent: Googlebot
+Disallow: /no-google/   # Block Googlebot from specific directory (if applicable)
+
+User-agent: Bingbot
+Disallow: /no-bing/     # Block Bingbot from specific directory (if applicable)
+
+# Security headers (commented for reference)
+# X-Robots-Tag: noindex, nofollow
+
+
+# Sitemap for better crawling
+Sitemap: https://www.insdraipur.com/sitemap.xml
