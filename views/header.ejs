@@ -377,8 +377,8 @@
         text-decoration: none;
       
         /* Start: hidden and slightly off to the right */
-        transform: translateX(100px) rotate(-90deg);
-        opacity: 0;
+        transform: translateX(0) rotate(-90deg);
+        opacity: 100;
         pointer-events: none;
       
         transition: transform 0.5s ease, opacity 0.5s ease;
@@ -392,26 +392,23 @@
       }
       
       @media (max-width:768px) {
-        .side-button {
-          display: none;
+        .side-button ,.side-button2 {
+        
           padding: 6px 20px 25px 20px !important;
           font-size: 14px;
           top: 50%;
         }
       
-        .side-button2 {
-          border-top-left-radius: 20px !important;
-        }
       
         .sidebutton {
-          right: -45px;
+          right: -105px;
         }
       }
       
      
 </style>
 
-<div class="sidebutton" id="scrollButton">
+<div class="sidebutton show" id="scrollButton">
     <a class="side-button" href="/admission">
       Enquire Now
     </a>
@@ -420,20 +417,7 @@
     </a>
   </div>
   
-  
-  <script>
-    window.addEventListener("scroll", function () {
-      const scrollBtn = document.getElementById("scrollButton");
-      const isMobile = window.innerWidth <= 768;
-      const scrollThreshold = isMobile ? 200 : 800;
-  
-      if (window.scrollY > scrollThreshold) {
-        scrollBtn.classList.add("show");
-      } else {
-        scrollBtn.classList.remove("show");
-      }
-    });
-  </script>
+ 
   
         <script>
             

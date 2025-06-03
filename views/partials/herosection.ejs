@@ -1,6 +1,6 @@
 <div id="hero_header" class="hero-header section panel overflow-hidden">
         <div class="position-absolute top-0 start-0 end-0 h-500px xl:h-screen" style="background-color: #19182c;"></div>
-        <div class="position-absolute top-0 start-0 end-0 min-h-screen overflow-hidden lg:d-block uc-dark" data-anime="onview: -100; targets: img; scale: [0.8, 1]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 250; delay: anime.stagger(50, {start: 500});">
+        <div style="z-index: 9;" class="position-absolute top-0 start-0 end-0 min-h-screen z-[99] overflow-hidden lg:d-block uc-dark" data-anime="onview: -100; targets: img; scale: [0.8, 1]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 250; delay: anime.stagger(50, {start: 500});">
             <div class="position-absolute top-0 start-0 block rotate-45" style="top: 40% !important;  left: 25% !important">
                 <img class="w-32px text-gray-900 dark:text-white" src="/assets/images/whitestar.svg" alt="star-1" data-uc-svg>
             </div>
@@ -48,12 +48,14 @@
         </div>
         <div class="section-outer panel pb-6 sm:pb-9 pt-9 sm:pt-10">
             <div style="
+            background-color: #19182c;
     width: 100% !important;
     padding-bottom: 22px;">
                 <div class="section-inner panel">
-                    <div class="vstack gap-6 sm:gap-8 xl:gap-9">
+                    <div class="vstack gap-2 sm:gap-1 xl:gap-4">
                         <div class="panel text-center max-w-850px mx-auto uc-dark">
-                            <div class="vstack items-center gap-2 text-white" data-anime="targets: >*; translateY: [24, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
+                            <div class="vstack items-center gap-2 text-white" style="z-index: 99;
+    position: relative;" data-anime="targets: >*; translateY: [24, 0]; opacity: [0, 1]; easing: spring(1, 80, 10, 0); duration: 450; delay: anime.stagger(100, {start: 200});">
                                 <h1 style="font-weight:700" class="h2 sm:h1 lg:display-6 xl:display-4 mt-4 sm:mt-0">
                                     Welcome to <br class="d-block sm:d-none"><span style="font-weight:700">INSD Raipur</span>  <br>
                                     <span>Design your future</span> today.
@@ -70,15 +72,192 @@
                             </div>
                         </div>
                <div class="panel p-20" style="width: 100%; padding: 0; margin: 0; background-color: #19182c; position: relative;">
-  <figure style="max-height: 100vh;" class="featured-image m-0 rounded ratio ratio-16x9 lg:rounded-2 overflow-hidden">
-   <iframe id="youtube-video" 
-                src="https://www.youtube.com/embed/P0DX6nYbM5k?enablejsapi=1&autoplay=0&mute=0&controls=0&showinfo=0&rel=0" 
-                frameborder="0" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; scale:1.18"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-        </iframe>
-  </figure>
+  <style>
+        /* Parent container styles from screenshot */
+      
+
+        .text-center {
+            text-align: center;
+        }
+
+        .max-w-630px {
+            max-width: 630px;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .uc-dark {
+            background-color: #19182c;
+        }
+
+        /* Figure styles */
+        .featured-image {
+            max-height: 100vh;
+            margin: 0;
+            border-radius: 0.25rem; /* Matches 'rounded' */
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16 / 9; /* Matches 'ratio ratio-16x9' */
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .featured-image {
+                border-radius: 0.5rem; /* Matches 'lg:rounded-2' */
+            }
+        }
+
+        /* Container for the thumbnail */
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Thumbnail image */
+        .hero-video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures thumbnail fills container without distortion */
+            display: block;
+        }
+
+        /* Play button overlay */
+        .hero-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            z-index: 10; /* Ensures play button is above thumbnail */
+        }
+
+        .hero-play-button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-play-button::before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 30px solid white;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+        }
+
+        /* Modal styles */
+        .hero-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background: black;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .hero-modal iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-close-button {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .hero-close-button:hover {
+            transform: scale(1.2);
+        }
+    </style>
+
+<body>
+    <!-- Parent container from screenshot -->
+    <div class="panel text-center mx-auto uc-dark">
+        <!-- Figure with thumbnail and play button -->
+        <figure style="height: 100% !important; width:100% !important" class="featured-image m-0 rounded ratio ratio-16x9  lg:rounded-2 overflow-hidden">
+            <div class="hero-video-container" onclick="openHeroModal()">
+                <img class="hero-video-thumbnail" style="z-index: 9;
+    position: relative;" src="https://img.youtube.com/vi/P0DX6nYbM5k/maxresdefault.jpg" alt="Video Thumbnail">
+                <div class="hero-play-button"></div>
+            </div>
+        </figure>
+    </div>
+
+    <!-- Modal for video playback -->
+    <div id="heroVideoModal" class="hero-modal">
+        <div class="hero-modal-content">
+            <button class="hero-close-button" onclick="closeHeroModal()">×</button>
+            <iframe id="hero-youtube-video" 
+                    src="https://www.youtube.com/embed/P0DX6nYbM5k?enablejsapi=1&autoplay=0&mute=0&controls=1&showinfo=0&rel=0" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+ <script>
+        function openHeroModal() {
+            const modal = document.getElementById('heroVideoModal');
+            const iframe = modal.querySelector('iframe');
+            // Set autoplay to start video when modal opens
+            iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
+            modal.style.display = 'flex';
+            // Prevent body scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHeroModal() {
+            const modal = document.getElementById('heroVideoModal');
+            const iframe = modal.querySelector('iframe');
+            // Stop video by resetting src to disable autoplay
+            iframe.src = iframe.src.replace('autoplay=1', 'autoplay=0');
+            modal.style.display = 'none';
+            // Restore body scrolling when modal is closed
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the video
+        document.getElementById('heroVideoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeHeroModal();
+            }
+        });
+    </script>
 </div>
 
 <script>
@@ -141,6 +320,10 @@
   <!-- 6WR5cg4Afqk -->
 
   <style>
+
+    .ytmVideoInfoVideoTitleContainer  {
+        opacity: 0 !important;
+    }
       .none {
           display: none;
       }
