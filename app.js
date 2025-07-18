@@ -35,7 +35,7 @@ app.get('/', async (req, res) => {
     title: "INSD Raipur | Premier Design Institute in Chhattisgarh",
     metaDescription: "Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.",
     metaImage: `${baseUrl}/${metaLogoPath}`,
-    keywords: "insd raipur, design institute raipur, fashion design raipur, interior design chhattisgarh, graphic design course, animation school india, photography classes, digital marketing raipur, top design college, insd branches",
+    metaKeyword: "insd raipur, design institute raipur, fashion design raipur, interior design chhattisgarh, graphic design course, animation school india, photography classes, digital marketing raipur, top design college, insd branches",
     canonical: ``,
 };
 
@@ -51,7 +51,7 @@ app.get('/about', async (req, res) => {
         title: "About INSD Raipur | Premier Design Institute in Chhattisgarh",
         metaDescription: "Learn about INSD Raipur, established in 2013 to offer international design education in Chhattisgarh. Discover our mission, vision, and impact.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: " INSD Raipur, design institute Chhattisgarh, about INSD, design education",
+        metaKeyword: " INSD Raipur, design institute Chhattisgarh, about INSD, design education",
         canonical: `/about`,
     };
     
@@ -69,7 +69,7 @@ app.get('/courses', async (req, res) => {
         title: "Design Courses at INSD Raipur | Explore Your Creative Path",
         metaDescription: "Browse all design courses offered by INSD Raipur including fashion, interior, animation, UI/UX, and more..",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "design courses Raipur, INSD programs, creative courses Chhattisgarh",
+        metaKeyword: "design courses Raipur, INSD programs, creative courses Chhattisgarh",
         canonical: `/courses`,
     }; 
    
@@ -82,7 +82,7 @@ app.get('/fashion-designing', async (req, res) => {
         title: " Fashion Design Course | INSD Raipur",
         metaDescription: "Learn fashion designing at INSD Raipur with an international curriculum, expert mentors, and industry exposure.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "fashion design course Raipur, fashion designing institute, INSD fashion program",
+        metaKeyword: "fashion design course Raipur, fashion designing institute, INSD fashion program",
         canonical: `/fashion-designing`,
     }; 
    
@@ -95,7 +95,7 @@ app.get('/interior-designing', async (req, res) => {
         title: "Interior Design Course | INSD Raipur",
         metaDescription: "Enroll in INSD Raipur’s interior design course to master aesthetics, space planning, and interior creativity.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "interior design course, space design, interior decorating training",
+        metaKeyword: "interior design course, space design, interior decorating training",
         canonical: `/interior-designing`,
     }; 
    
@@ -109,7 +109,7 @@ app.get('/graphic-designing', async (req, res) => {
         title: "Graphic Design Course | INSD Raipur",
         metaDescription: "Discover the innovative curriculum at Alphabetz Preschool Dongargarh, designed to nurture creativity, cognitive skills, and social growth through play-based learning.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
+        metaKeyword: "Preschool curriculum, Best curriculum for kids, Play-based learning, Early childhood education, Learning through play, Kindergarten syllabus, Montessori approach",
         canonical: `/graphic-designing`,
     }; 
    
@@ -122,7 +122,7 @@ app.get('/photography', async (req, res) => {
         title: "Photography Course | INSD Raipur",
         metaDescription: "Master the art of photography with professional training at INSD Raipur. From basics to advanced techniques.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "photography institute, Raipur photography course, creative photography training",
+        metaKeyword: "photography institute, Raipur photography course, creative photography training",
         canonical: `/photography`,
     }; 
    
@@ -135,7 +135,7 @@ app.get('/digital-marketing', async (req, res) => {
         title: "Digital Marketing Course | INSD Raipur",
         metaDescription: "Become a digital marketing expert with INSD Raipur’s industry-focused training. SEO, social media & more.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: " digital marketing training Raipur, SEO course, online marketing course",
+        metaKeyword: " digital marketing training Raipur, SEO course, online marketing course",
         canonical: `/digital-marketing`,
     }; 
    
@@ -149,7 +149,7 @@ app.get('/uiux-designing', async (req, res) => {
         title: "UI/UX Design Course | INSD Raipur",
         metaDescription: "Learn user interface and experience design at INSD Raipur. Get hands-on with real tools and projects.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "UI UX training, user experience course, web design Raipur",
+        metaKeyword: "UI UX training, user experience course, web design Raipur",
         canonical: `/uiux-designing`,
     }; 
    
@@ -162,7 +162,7 @@ app.get('/event-management', async (req, res) => {
         title: "Event Management Course | INSD Raipur",
         metaDescription: "Start your career in event planning with INSD Raipur’s event management course. Learn coordination, planning & execution.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "event planning course, event management training, INSD event course",
+        metaKeyword: "event planning course, event management training, INSD event course",
         canonical: `/event-management`,
     }; 
    
@@ -177,7 +177,7 @@ app.get('/animation-designing', async (req, res) => {
         title: "Animation Design Course | INSD Raipur",
         metaDescription: " Learn 2D/3D animation and motion graphics with INSD Raipur’s animation design program. Ideal for creative storytellers.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "animation design course, 3D animation, animation institute Raipur",
+        metaKeyword: "animation design course, 3D animation, animation institute Raipur",
         canonical: `/animation-designing`,
     }; 
    
@@ -197,7 +197,7 @@ app.get('/admission', async (req, res) => {
         title: "Apply to INSD Raipur | Admissions Open for Design Courses",
         metaDescription: "Start your design journey at INSD Raipur. Apply now for fashion, interior, graphic, and other creative courses.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "apply INSD Raipur, design course admission, creative careers, design school admission",
+        metaKeyword: "apply INSD Raipur, design course admission, creative careers, design school admission",
         canonical: `/admission`,
     }; 
    
@@ -249,7 +249,7 @@ app.get('/gallery', async (req, res) => {
         title: " INSD Raipur Gallery | Student Work, Events & Campus Life",
         metaDescription: "View highlights of student projects, campus events, and creative life at INSD Raipur through our vibrant image gallery.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "INSD gallery, design student work, campus photos, Raipur institute",
+        metaKeyword: "INSD gallery, design student work, campus photos, Raipur institute",
         canonical: `/gallery`,
     };
 
@@ -266,7 +266,7 @@ app.get('/contact', async (req, res) => {
         title: "Contact INSD Raipur | Reach Us for Admissions & Queries",
         metaDescription: "Have questions? Contact INSD Raipur for admission inquiries, course details, and career opportunities in design.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "contact INSD Raipur, design course inquiry, admission help, institute address",
+        metaKeyword: "contact INSD Raipur, design course inquiry, admission help, institute address",
         canonical: `/contact`,
     };
 
@@ -280,7 +280,7 @@ app.get('/career', async (req, res) => {
         title: "Career Opportunities | INSD Raipur",
         metaDescription: "Join the creative team at INSD Raipur. Explore teaching, administrative, and industry roles.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "careers at INSD, job openings Raipur, design faculty, institute jobs",
+        metaKeyword: "careers at INSD, job openings Raipur, design faculty, institute jobs",
         canonical: `/career`,
     };
 
@@ -296,7 +296,7 @@ app.get('/blogs', async (req, res) => {
         title: "INSD Raipur Blog | Design Trends, Tips & Student Stories",
         metaDescription: "Explore the latest in fashion, interior, graphic, and digital design with blogs from INSD Raipur. Insights, student stories, and industry tips.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: "design blogs, fashion trends, graphic design tips, student stories, INSD Raipur blog",
+        metaKeyword: "design blogs, fashion trends, graphic design tips, student stories, INSD Raipur blog",
         canonical: `/blogs`,
     };
 
@@ -312,7 +312,7 @@ app.get('/events', async (req, res) => {
         title: " Events at INSD Raipur | Design Shows, Workshops & More",
         metaDescription: " Stay updated with events at INSD Raipur – from fashion shows to guest lectures and workshops. Discover opportunities to learn and network.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: " design events Raipur, fashion shows, design workshops, INSD events",
+        metaKeyword: " design events Raipur, fashion shows, design workshops, INSD events",
         canonical: `/events`,
     };
 
@@ -326,7 +326,7 @@ app.get('/thankyou', async (req, res) => {
         title: "Thank You for Contacting Us | Your Request Has Been Received",
         metaDescription: "Thank you for reaching out to INSD. We have received your request and will get back to you shortly. Stay tuned for further updates.",
         metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords:"Thank you page, request confirmation,Thank you message ",
+        metaKeyword:"Thank you page, request confirmation,Thank you message ",
         canonical:"/thankyou",
     } 
     res.render('thankyou', {body: "",seoDetails});
@@ -353,13 +353,15 @@ app.get('/detail/:slug', async (req, res) => {
     const truncatedDescription = truncateToWords(blogfull?.description, 25);
 
     // Set the meta image dynamically
-   
-  
+    const metaimg = blogfull?.banner?.bannerType === "IMAGE" && blogfull?.banner?.image && blogfull?.banner?.image !== ""
+      ? process.env.S3_BASE_URL + blogfull.banner.image
+      : `${baseUrl}/${metaLogoPath}`;
+
     const seoDetails = {
         title: blogfull?.title,
         metaDescription: truncatedDescription, // Use the truncated description
-        metaImage: `${baseUrl}/${metaLogoPath}`,
-        keywords: `${blogfull.seoDetails.tags}`,
+        metaImage: metaimg,
+        metaKeyword: blogfull?.seoDetails?.tags ? blogfull.seoDetails.tags.join(', ') : '',
         canonical:`/detail/${slug}`,
     };
 
@@ -381,7 +383,7 @@ app.use(async (req, res, next) => {
         title: "404 - Page Not Found | INSD Raipur",
         metaDescription: "Sorry, the page you are looking for cannot be found. Please check the URL or visit our homepage for more information.",
         metaImage: `${baseUrl}/assets/images/metalogo.png`, // Replace with correct path if needed
-        keywords: "404 page not found,  page not found, Error page , error",
+        metaKeyword: "404 page not found,  page not found, Error page , error",
         canonical: `/404`, // You can use the original URL for canonical
     };
     
