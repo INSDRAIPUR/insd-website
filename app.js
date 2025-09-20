@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
     const popupbanners = await getHomepopupBanner();
    const latestImages = await getLatestGalleryImages();
    const seoDetails = {
-    title: "INSD Raipur | Premier Design Institute in Chhattisgarh",
+    title: "INSD Raipur | International School of Design Raipur , Chhattisgarh",
     metaDescription: "Join INSD Raipur, a global leader in design education offering Fashion, Interior, Graphic, Animation, Photography & Digital Marketing courses.",
     metaImage: `${baseUrl}${metaLogoPath}`,
     metaKeyword: "insd raipur, design institute raipur, fashion design raipur, interior design chhattisgarh, graphic design course, animation school india, photography classes, digital marketing raipur, top design college, insd branches",

@@ -1,9 +1,0 @@
-# robots.txt for https://www.insdraipur.com/
-
-
-
-# Specify the location of the sitemap for better crawling
-Sitemap: https://www.insdraipur.com/sitemap.xml
-
-
-
